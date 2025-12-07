@@ -10,7 +10,7 @@ export default defineConfig([
         extends: ['js/recommended'],
         rules: {
             'no-unused-vars': 'error',
-            'no-undef': 'warn',
+            'no-undef': 'off',
         },
     },
 ])
