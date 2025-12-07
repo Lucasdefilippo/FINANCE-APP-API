@@ -1,12 +1,14 @@
-import { defineConfig } from "eslint/config";
-import js from "@eslint/js";
+import js from '@eslint/js'
+import globals from 'globals'
 
-export default defineConfig([
+export default [
+    js.configs.recommended,
     {
-        files: ["**/*.js"],
-        plugins: {
-            js,
+        languageOptions: {
+            globals: globals.node,
         },
-        extends: ["js/recommended"],
+        rules: {
+            'no-unused-vars': 'error',
+        },
     },
-]);
+]
