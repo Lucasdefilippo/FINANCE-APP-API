@@ -10,6 +10,10 @@ app.get('/', async (req, res) => {
     res.send(JSON.stringify(result))
 })
 
+app.post('/api/users/', async (req, res) => {
+    res.status(201).send('User created')
+})
+
 const PORT = process.env.PORT || 3000
 
 app.listen(PORT, () => {
