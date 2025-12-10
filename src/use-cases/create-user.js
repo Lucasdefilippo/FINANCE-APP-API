@@ -5,7 +5,7 @@ import { PostgresCreateUserRepository } from '../repositories/postgres/create-us
 export class CreateUserUseCase {
     async execute(CreateUserParams) {
         const UserID = uuidv4()
-        const HashedPassword = bcrypt.hashSync(CreateUserParams.Password, 10)
+        const HashedPassword = bcrypt.hashSync(CreateUserParams.password, 10)
 
         const NewUser = {
             ...CreateUserParams,
