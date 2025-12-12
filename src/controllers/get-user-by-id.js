@@ -1,5 +1,5 @@
 import { GetUserByIdUseCase } from '../use-cases/get-user-by-id.js'
-import { badRequest, errorServer } from './helper.js'
+import { badRequest, errorServer, notFound, Ok } from './helper.js'
 import { validate } from 'uuid'
 
 export class GetUserByIdController {
@@ -17,10 +17,15 @@ export class GetUserByIdController {
                 httpRequest.params.userId,
             )
 
-            return {
-                statusCode: 200,
-                body: user,
+            if (!user) {
+                return notFound({
+                    message: 'User Not found.',
+                })
             }
+
+            return Ok({
+                user,
+            })
         } catch (error) {
             console.error(error)
             return errorServer()

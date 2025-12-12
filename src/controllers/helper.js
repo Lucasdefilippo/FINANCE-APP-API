@@ -1,3 +1,17 @@
+export const Ok = (body) => {
+    return {
+        statusCode: 200,
+        body,
+    }
+}
+
+export const created = (body) => {
+    return {
+        statusCode: 201,
+        body,
+    }
+}
+
 export const badRequest = (ErrorMessage) => {
     return {
         statusCode: 400,
@@ -7,9 +21,9 @@ export const badRequest = (ErrorMessage) => {
     }
 }
 
-export const created = (body) => {
+export const notFound = (body) => {
     return {
-        statusCode: 201,
+        statusCode: 404,
         body,
     }
 }
