@@ -27,6 +27,15 @@ export class UpdateUserController {
                 'password',
             ]
 
+            for (const param of allowedFields) {
+                console.log(updateUserParams[param])
+                if (updateUserParams[param].trim().length === 0) {
+                    return badRequest({
+                        Message: `Missing param: ${param}`,
+                    })
+                }
+            }
+
             const someFieldsIsNotAllowed = Object.keys(updateUserParams).some(
                 (field) => !allowedFields.includes(field),
             )
