@@ -23,6 +23,14 @@ app.get('/api/users/:userId', async (request, response) => {
     response.status(statusCode).send(body)
 })
 
+app.patch('/api/users/:userId', async (request, response) => {
+    const updateUserController = new updateUserController()
+
+    const { statusCode, body } = await updateUserController.execute(request)
+
+    response.status(statusCode).send(body)
+})
+
 const PORT = process.env.PORT || 3000
 
 app.listen(PORT, () => {
