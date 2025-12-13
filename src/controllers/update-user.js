@@ -28,9 +28,7 @@ export class UpdateUserController {
             ]
 
             const someFieldsIsNotAllowed = Object.keys(updateUserParams).some(
-                (field) => {
-                    !allowedFields.includes(field)
-                },
+                (field) => !allowedFields.includes(field),
             )
 
             if (someFieldsIsNotAllowed) {
@@ -46,7 +44,7 @@ export class UpdateUserController {
 
                 if (!passwordIsNotValid) {
                     return badRequest({
-                        message: 'The password must be at least 6 characters',
+                        message: 'The password must be at least 8 characters',
                     })
                 }
             }
