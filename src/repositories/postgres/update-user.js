@@ -10,11 +10,11 @@ export class PostgresUpdateUser {
             updateValues.push(userUpdateParams[key])
         })
 
-        updateValues.push(userId)
+        updateValues.push(`${userId}`)
 
-        const updateQuery = `UPDATE users SET ${updateField} WHERE id = ${updateValues.length} RETURNING *`
+        const updateQuery = `UPDATE users SET ${updateField} WHERE id = $${updateValues.length} RETURNING *`
 
-        const updateUser = await postgresHelper(updateQuery, updateValues)
+        const updateUser = await postgresHelper.query(updateQuery, updateValues)
 
         return updateUser
     }

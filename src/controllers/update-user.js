@@ -1,7 +1,7 @@
-import { validate } from 'uuid'
 import { badRequest, errorServer, Ok } from './helper.js'
 import validator from 'validator'
 import { EmailAlreadyInUse } from '../errors/user.js'
+import { UpdateUserUseCase } from '../use-cases/uptade-user.js'
 
 export class UpdateUserController {
     async execute(httpRequest) {
@@ -12,7 +12,7 @@ export class UpdateUserController {
 
             const userId = httpRequest.params.userId
 
-            const isValidId = validate(userId)
+            const isValidId = validator.isUUID(userId)
 
             if (!isValidId) {
                 return badRequest({ message: 'The provided ID is not valid' })
@@ -61,7 +61,7 @@ export class UpdateUserController {
                 }
             }
 
-            const updateUserUseCase = new updateUserUseCase()
+            const updateUserUseCase = new UpdateUserUseCase()
 
             const user = await updateUserUseCase.execute(
                 userId,
