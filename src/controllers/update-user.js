@@ -1,4 +1,3 @@
-import { badRequest, errorServer, Ok } from './helpers/http.js'
 import { EmailAlreadyInUse } from '../errors/user.js'
 import { UpdateUserUseCase } from '../use-cases/uptade-user.js'
 import {
@@ -8,7 +7,10 @@ import {
     verifyEmail,
     verifyPassword,
     verifyUserId,
-} from './helpers/user.js'
+    badRequest,
+    errorServer,
+    Ok,
+} from './helpers/index.js'
 
 export class UpdateUserController {
     async execute(httpRequest) {
