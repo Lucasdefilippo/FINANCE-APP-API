@@ -1,5 +1,4 @@
 import { EmailAlreadyInUse } from '../errors/user.js'
-import { UpdateUserUseCase } from '../use-cases/uptade-user.js'
 import {
     sendInvalidEmailError,
     sendInvalidPasswordError,
@@ -13,6 +12,9 @@ import {
 } from './helpers/index.js'
 
 export class UpdateUserController {
+    constructor(updateUserUseCase) {
+        this.updateUserUseCase = updateUserUseCase
+    }
     async execute(httpRequest) {
         try {
             const params = httpRequest.body
@@ -35,13 +37,13 @@ export class UpdateUserController {
                 'email',
                 'password',
             ]
-
             for (const param of allowedFields) {
-                console.log(params[param])
-                if (params[param].trim().length === 0) {
-                    return badRequest({
-                        Message: `Missing param: ${param}`,
-                    })
+                if (!param) {
+                    if (params[param].trim().length === 0) {
+                        return badRequest({
+                            Message: `Missing param: ${param}`,
+                        })
+                    }
                 }
             }
 
@@ -73,9 +75,7 @@ export class UpdateUserController {
                 }
             }
 
-            const updateUserUseCase = new UpdateUserUseCase()
-
-            const user = await updateUserUseCase.execute(userId, params)
+            const user = await this.updateUserUseCase.execute(userId, params)
 
             return Ok({
                 user,
