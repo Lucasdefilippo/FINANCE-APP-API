@@ -1,4 +1,3 @@
-import { DeleteUserUseCase } from '../use-cases/delete-user.js'
 import {
     errorServer,
     notFound,
@@ -8,6 +7,9 @@ import {
 } from './helpers/index.js'
 
 export class DeleteUserController {
+    constructor(deleteUserUseCase) {
+        this.deleteUserUseCase = deleteUserUseCase
+    }
     async execute(httpRequest) {
         try {
             const userId = httpRequest.params.userId
@@ -18,9 +20,7 @@ export class DeleteUserController {
                 return sendInvalidUserIdError()
             }
 
-            const deleteUserUseCase = new DeleteUserUseCase()
-
-            const user = await deleteUserUseCase.execute(userId)
+            const user = await this.deleteUserUseCase.execute(userId)
 
             if (!user) {
                 return notFound({
