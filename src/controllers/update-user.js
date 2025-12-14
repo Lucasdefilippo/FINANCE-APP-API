@@ -1,21 +1,28 @@
-import { badRequest, errorServer, Ok } from './helper.js'
-import validator from 'validator'
+import { badRequest, errorServer, Ok } from './helpers/http.js'
 import { EmailAlreadyInUse } from '../errors/user.js'
 import { UpdateUserUseCase } from '../use-cases/uptade-user.js'
+import {
+    sendInvalidEmailError,
+    sendInvalidPasswordError,
+    sendInvalidUserIdError,
+    verifyEmail,
+    verifyPassword,
+    verifyUserId,
+} from './helpers/user.js'
 
 export class UpdateUserController {
     async execute(httpRequest) {
         try {
-            const updateUserParams = httpRequest.body
+            const params = httpRequest.body
 
             // Verificar o ID
 
             const userId = httpRequest.params.userId
 
-            const isValidId = validator.isUUID(userId)
+            const isValidId = verifyUserId(userId)
 
             if (!isValidId) {
-                return badRequest({ message: 'The provided ID is not valid' })
+                return sendInvalidUserIdError()
             }
 
             // Verificar campos.
@@ -28,15 +35,15 @@ export class UpdateUserController {
             ]
 
             for (const param of allowedFields) {
-                console.log(updateUserParams[param])
-                if (updateUserParams[param].trim().length === 0) {
+                console.log(params[param])
+                if (params[param].trim().length === 0) {
                     return badRequest({
                         Message: `Missing param: ${param}`,
                     })
                 }
             }
 
-            const someFieldsIsNotAllowed = Object.keys(updateUserParams).some(
+            const someFieldsIsNotAllowed = Object.keys(params).some(
                 (field) => !allowedFields.includes(field),
             )
 
@@ -48,32 +55,25 @@ export class UpdateUserController {
 
             // Vericiar e-mail
 
-            if (updateUserParams.password) {
-                const passwordIsNotValid = updateUserParams.password.length >= 8
+            if (params.password) {
+                const passwordIsNotValid = verifyPassword(params.password)
 
                 if (!passwordIsNotValid) {
-                    return badRequest({
-                        message: 'The password must be at least 8 characters',
-                    })
+                    return sendInvalidPasswordError()
                 }
             }
 
-            if (updateUserParams.email) {
-                const emailIsValid = validator.isEmail(updateUserParams.email)
+            if (params.email) {
+                const emailIsValid = verifyEmail(params.email)
 
                 if (!emailIsValid) {
-                    return badRequest({
-                        message: 'Invalid E-mail. Please provide a valid one',
-                    })
+                    return sendInvalidEmailError()
                 }
             }
 
             const updateUserUseCase = new UpdateUserUseCase()
 
-            const user = await updateUserUseCase.execute(
-                userId,
-                updateUserParams,
-            )
+            const user = await updateUserUseCase.execute(userId, params)
 
             return Ok({
                 user,
