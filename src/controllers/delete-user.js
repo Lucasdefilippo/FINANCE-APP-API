@@ -28,7 +28,7 @@ export class DeleteUserController {
                 })
             }
 
-            return Ok({ user })
+            return Ok({ Successfully_deleted: user })
         } catch (error) {
             console.error(error)
             return errorServer()
