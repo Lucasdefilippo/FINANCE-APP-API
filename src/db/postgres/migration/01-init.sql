@@ -16,6 +16,7 @@ END $$;
 CREATE TABLE IF NOT EXISTS transactions(
     ID UUID PRIMARY KEY,
     user_id UUID REFERENCES users(ID) ON DELETE CASCADE,
+    name VARCHAR(100) NOT NULL
     amount DECIMAL(10, 2) NOT NULL,
     transaction_date DATE NOT NULL,
     type TRANSACTION_TYPE NOT NULL
