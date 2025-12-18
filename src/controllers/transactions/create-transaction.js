@@ -66,9 +66,10 @@ export class CreateTransactionController {
             }
 
             const transaction = await this.createTransactionUseCase.execute(
-                params,
+                ...[params],
                 type,
             )
+
             return created(transaction)
         } catch (err) {
             console.error(err)
