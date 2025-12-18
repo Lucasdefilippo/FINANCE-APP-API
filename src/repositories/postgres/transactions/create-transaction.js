@@ -1,4 +1,4 @@
-import { postgresHelper } from '../../../db/postgres/helper'
+import { postgresHelper } from '../../../db/postgres/helper.js'
 
 export class PostgresCreateTransactionRepository {
     async execute(createTransactionParams) {
