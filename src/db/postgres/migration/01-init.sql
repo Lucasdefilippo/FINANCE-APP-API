@@ -8,16 +8,16 @@ CREATE TABLE IF NOT EXISTS users(
 
 DO $$
 BEGIN 
-    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'transaction_type') THEN
-        CREATE TYPE TRANSACTION_TYPE AS ENUM ('EARNING', 'EXPENSE', 'INVESTMENT');
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'type') THEN
+        CREATE TYPE type AS ENUM ('EARNING', 'EXPENSE', 'INVESTMENT');
     END IF;
 END $$;
 
 CREATE TABLE IF NOT EXISTS transactions(
     ID UUID PRIMARY KEY,
-    user_id UUID REFERENCES users(ID) ON DELETE CASCADE,
-    name VARCHAR(100) NOT NULL
+    user_id UUID REFERENCES users(ID) ON DELETE CASCADE NOT NULL ,
+    name VARCHAR(100) NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,
-    transaction_date DATE NOT NULL,
-    type TRANSACTION_TYPE NOT NULL
+    date DATE NOT NULL,
+    type type NOT NULL
 );

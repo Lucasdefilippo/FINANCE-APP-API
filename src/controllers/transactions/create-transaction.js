@@ -15,18 +15,12 @@ export class CreateTransactionController {
         try {
             const params = httpRequest.body
 
-            const requiredFields = [
-                'user_id',
-                'name',
-                'amount',
-                'transaction_date',
-                'TRANSACTION_TYPE',
-            ]
+            const requiredFields = ['user_id', 'name', 'amount', 'date', 'type']
 
             for (const field of requiredFields) {
                 if (
                     !params[field] ||
-                    params[field].toString.trim().length === 0
+                    params[field].toString().trim().length === 0
                 ) {
                     return badRequest({ Message: `Missing param: ${field}` })
                 }
@@ -59,7 +53,7 @@ export class CreateTransactionController {
                 })
             }
 
-            const type = params.TRANSACTION_TYPE.trim().toUpperCase()
+            const type = params.type.trim().toUpperCase()
 
             const typesValid = ['EARNING', 'EXPENSE', 'INVESTMENT'].includes(
                 type,
@@ -71,11 +65,10 @@ export class CreateTransactionController {
                 })
             }
 
-            const transaction = this.createTransactionUseCase.execute(
-                ...params,
+            const transaction = await this.createTransactionUseCase.execute(
+                params,
                 type,
             )
-
             return created(transaction)
         } catch (err) {
             console.error(err)
