@@ -1,6 +1,7 @@
 import validator from 'validator'
 import {
     badRequest,
+    checkFields,
     created,
     errorServer,
     sendInvalidUserIdError,
@@ -17,13 +18,15 @@ export class CreateTransactionController {
 
             const requiredFields = ['user_id', 'name', 'amount', 'date', 'type']
 
-            for (const field of requiredFields) {
-                if (
-                    !params[field] ||
-                    params[field].toString().trim().length === 0
-                ) {
-                    return badRequest({ Message: `Missing param: ${field}` })
-                }
+            const { response, missingField } = checkFields(
+                params,
+                requiredFields,
+            )
+
+            if (!response) {
+                return badRequest({
+                    message: `The field ${missingField} is required`,
+                })
             }
 
             const userIdValidate = verifyUserId(params.user_id)
