@@ -13,6 +13,6 @@ export class PostgresCreateTransactionRepository {
                 createTransactionParams.type,
             ],
         )
-        return result
+        return result.rows[0]
     }
 }

@@ -7,6 +7,6 @@ export class PostgresGetUserByEmailRepository {
             [email],
         )
 
-        return user
+        return user.rows[0]
     }
 }

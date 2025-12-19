@@ -7,6 +7,6 @@ export class PostgresDeleteUserRepository {
             [userId],
         )
 
-        return result
+        return result.rows[0]
     }
 }

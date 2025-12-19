@@ -12,6 +12,6 @@ export class PostgresCreateUserRepository {
                 createUserParams.password,
             ],
         )
-        return result
+        return result.rows[0]
     }
 }

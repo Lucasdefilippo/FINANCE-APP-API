@@ -16,6 +16,6 @@ export class PostgresUpdateUser {
 
         const updateUser = await postgresHelper.query(updateQuery, updateValues)
 
-        return updateUser
+        return updateUser.rows[0]
     }
 }
