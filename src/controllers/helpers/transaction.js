@@ -1,3 +1,5 @@
+import validator from 'validator'
+
 export const checkIfIsValidCurrency = (amount) => {
     return validator.isCurrency(amount.toString(), {
         digits_after_decimal: [2],
