@@ -1,10 +1,13 @@
 import {
+    badRequest,
     checkIdIsValid,
-    checkIfIsValidType,
     errorServer,
     invalidIdResponse,
     Ok,
     typeIsNotValid,
+    amountIsNotValid,
+    checkIfIsValidCurrency,
+    checkIfIsValidType,
 } from '../helpers/index.js'
 
 export class UpdateTransactionController {
@@ -19,7 +22,6 @@ export class UpdateTransactionController {
             if (!idIsValid) {
                 return invalidIdResponse()
             }
-
             const params = httpRequest.body
 
             const allowedFields = ['name', 'date', 'amount', 'type']
@@ -60,7 +62,7 @@ export class UpdateTransactionController {
                 }
             }
 
-            const result = this.updateTransactionUseCase.execute(
+            const result = await this.updateTransactionUseCase.execute(
                 httpRequest.params.transactionId,
                 params,
             )
