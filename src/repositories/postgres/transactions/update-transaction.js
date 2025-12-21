@@ -1,4 +1,4 @@
-export class UpdateTransactionRepository {
+export class PostgresUpdateTransactionRepository {
     async execute(transactionId, transactionUpdateParams) {
         const updateField = []
         const updateValues = []
