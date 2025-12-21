@@ -1,5 +1,5 @@
 import {
-    sendInvalidUserIdError,
+    invalidIdResponse,
     checkIdIsValid,
     errorServer,
     notFound,
@@ -16,7 +16,7 @@ export class GetUserByIdController {
             const isValidId = checkIdIsValid(httpRequest.params.userId)
 
             if (!isValidId) {
-                return sendInvalidUserIdError()
+                return invalidIdResponse()
             }
 
             const user = await this.getUserByIdUseCase.execute(

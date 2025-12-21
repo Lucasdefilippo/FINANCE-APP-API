@@ -6,7 +6,7 @@ import {
     checkIfIsValidType,
     created,
     errorServer,
-    sendInvalidUserIdError,
+    invalidIdResponse,
     checkIdIsValid,
 } from '../helpers/index.js'
 
@@ -34,7 +34,7 @@ export class CreateTransactionController {
             const userIdValidate = checkIdIsValid(params.user_id)
 
             if (!userIdValidate) {
-                return sendInvalidUserIdError()
+                return invalidIdResponse()
             }
 
             const amountIsValid = checkIfIsValidCurrency(params.amount)

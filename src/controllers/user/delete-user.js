@@ -2,7 +2,7 @@ import {
     errorServer,
     notFound,
     Ok,
-    sendInvalidUserIdError,
+    invalidIdResponse,
     checkIdIsValid,
 } from '../helpers/index.js'
 
@@ -17,7 +17,7 @@ export class DeleteUserController {
             const isValidId = checkIdIsValid(userId)
 
             if (!isValidId) {
-                return sendInvalidUserIdError()
+                return invalidIdResponse()
             }
 
             const user = await this.deleteUserUseCase.execute(userId)

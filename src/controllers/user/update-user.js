@@ -2,7 +2,7 @@ import { EmailAlreadyInUse } from '../../errors/user.js'
 import {
     sendInvalidEmailError,
     sendInvalidPasswordError,
-    sendInvalidUserIdError,
+    invalidIdResponse,
     verifyEmail,
     verifyPassword,
     checkIdIsValid,
@@ -26,7 +26,7 @@ export class UpdateUserController {
             const isValidId = checkIdIsValid(userId)
 
             if (!isValidId) {
-                return sendInvalidUserIdError()
+                return invalidIdResponse()
             }
 
             // Verificar campos.

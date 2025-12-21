@@ -2,7 +2,7 @@ import { UserNotFoundError } from '../../errors/user.js'
 import {
     notFound,
     Ok,
-    sendInvalidUserIdError,
+    invalidIdResponse,
     checkIdIsValid,
     errorServer,
 } from '../helpers/index.js'
@@ -17,7 +17,7 @@ export class GetTransactionsByUserIdController {
             const userId = httpRequest.query.userId
 
             if (!userId) {
-                return sendInvalidUserIdError()
+                return invalidIdResponse()
             }
 
             const checkUserId = checkIdIsValid(userId)
