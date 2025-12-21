@@ -5,7 +5,7 @@ import {
     sendInvalidUserIdError,
     verifyEmail,
     verifyPassword,
-    verifyUserId,
+    checkIdIsValid,
     badRequest,
     errorServer,
     Ok,
@@ -23,7 +23,7 @@ export class UpdateUserController {
 
             const userId = httpRequest.params.userId
 
-            const isValidId = verifyUserId(userId)
+            const isValidId = checkIdIsValid(userId)
 
             if (!isValidId) {
                 return sendInvalidUserIdError()

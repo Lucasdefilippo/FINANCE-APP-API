@@ -3,7 +3,7 @@ import {
     notFound,
     Ok,
     sendInvalidUserIdError,
-    verifyUserId,
+    checkIdIsValid,
 } from '../helpers/index.js'
 
 export class DeleteUserController {
@@ -14,7 +14,7 @@ export class DeleteUserController {
         try {
             const userId = httpRequest.params.userId
 
-            const isValidId = verifyUserId(userId)
+            const isValidId = checkIdIsValid(userId)
 
             if (!isValidId) {
                 return sendInvalidUserIdError()

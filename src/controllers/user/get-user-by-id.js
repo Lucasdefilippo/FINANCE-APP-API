@@ -1,6 +1,6 @@
 import {
     sendInvalidUserIdError,
-    verifyUserId,
+    checkIdIsValid,
     errorServer,
     notFound,
     Ok,
@@ -13,7 +13,7 @@ export class GetUserByIdController {
 
     async execute(httpRequest) {
         try {
-            const isValidId = verifyUserId(httpRequest.params.userId)
+            const isValidId = checkIdIsValid(httpRequest.params.userId)
 
             if (!isValidId) {
                 return sendInvalidUserIdError()

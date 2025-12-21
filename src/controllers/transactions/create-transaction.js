@@ -7,7 +7,7 @@ import {
     created,
     errorServer,
     sendInvalidUserIdError,
-    verifyUserId,
+    checkIdIsValid,
 } from '../helpers/index.js'
 
 export class CreateTransactionController {
@@ -31,7 +31,7 @@ export class CreateTransactionController {
                 })
             }
 
-            const userIdValidate = verifyUserId(params.user_id)
+            const userIdValidate = checkIdIsValid(params.user_id)
 
             if (!userIdValidate) {
                 return sendInvalidUserIdError()

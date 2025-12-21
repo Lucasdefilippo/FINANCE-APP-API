@@ -3,7 +3,8 @@ import {
     notFound,
     Ok,
     sendInvalidUserIdError,
-    verifyUserId,
+    checkIdIsValid,
+    errorServer,
 } from '../helpers/index.js'
 
 export class GetTransactionsByUserIdController {
@@ -19,7 +20,7 @@ export class GetTransactionsByUserIdController {
                 return sendInvalidUserIdError()
             }
 
-            const checkUserId = verifyUserId(userId)
+            const checkUserId = checkIdIsValid(userId)
 
             if (!checkUserId) {
                 return { statusCode: 400, body: 'Foi não chefia' }
@@ -36,6 +37,7 @@ export class GetTransactionsByUserIdController {
                     message: 'User is Not Found',
                 })
             }
+            return errorServer()
         }
     }
 }
