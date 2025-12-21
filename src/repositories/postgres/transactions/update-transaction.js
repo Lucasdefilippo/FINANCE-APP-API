@@ -1,5 +1,5 @@
 export class UpdateTransactionRepository {
-    async execute(userId, transactionUpdateParams) {
+    async execute(transactionId, transactionUpdateParams) {
         const updateField = []
         const updateValues = []
 
@@ -8,7 +8,7 @@ export class UpdateTransactionRepository {
             updateValues.push(transactionUpdateParams[key])
         })
 
-        updateValues.push(`${userId}`)
+        updateValues.push(`${transactionId}`)
 
         const updateQuery = `UPDATE users SET ${updateField} WHERE id = $${updateValues.length} RETURNING *`
 
