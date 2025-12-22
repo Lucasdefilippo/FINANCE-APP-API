@@ -1,4 +1,5 @@
 import validator from 'validator'
+import { badRequest } from './index.js'
 
 export const checkIfIsValidCurrency = (amount) => {
     return validator.isCurrency(amount.toString(), {
