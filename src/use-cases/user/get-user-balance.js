@@ -6,13 +6,15 @@ export class GetUserBalanceUseCase {
         this.getUserByIdRespoitory = getUserByIdRespoitory
     }
     async execute(params) {
-        const user = this.getUserByIdRespoitory.execute(params.userId)
+        const user = await this.getUserByIdRespoitory.execute(params.userId)
 
         if (!user) {
             throw new UserNotFoundError(params.userId)
         }
 
-        const result = this.getUserBalanceRepository.execute(params.userId)
+        const result = await this.getUserBalanceRepository.execute(
+            params.userId,
+        )
 
         return result
     }
