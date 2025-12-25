@@ -1,3 +1,7 @@
-Arquivo Read me
+Estudando com o FSC.
 
-edit
+Materias aprendidas:
+
+Node - OK
+SQL - OK
+ZOD - Andamento
