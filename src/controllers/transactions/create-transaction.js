@@ -1,15 +1,6 @@
-import {
-    amountIsNotValid,
-    badRequest,
-    checkFields,
-    checkIfIsValidCurrency,
-    checkIfIsValidType,
-    created,
-    errorServer,
-    invalidIdResponse,
-    checkIdIsValid,
-    typeIsNotValid,
-} from '../helpers/index.js'
+import { ZodError } from 'zod'
+import { createTransactionsSchema } from '../../schemas/transactions.js'
+import { badRequest, created, errorServer } from '../helpers/index.js'
 
 export class CreateTransactionController {
     constructor(createTransactionUseCase) {
@@ -19,46 +10,19 @@ export class CreateTransactionController {
         try {
             const params = httpRequest.body
 
-            const requiredFields = ['user_id', 'name', 'amount', 'date', 'type']
+            await createTransactionsSchema.parseAsync(params)
 
-            const { response, missingField } = checkFields(
-                params,
-                requiredFields,
-            )
+            const transaction =
+                await this.createTransactionUseCase.execute(params)
 
-            if (!response) {
+            return created(transaction)
+        } catch (error) {
+            if (error instanceof ZodError) {
                 return badRequest({
-                    message: `The field ${missingField} is required`,
+                    message: error.issues[0].message,
                 })
             }
 
-            const userIdValidate = checkIdIsValid(params.user_id)
-
-            if (!userIdValidate) {
-                return invalidIdResponse()
-            }
-
-            const amountIsValid = checkIfIsValidCurrency(params.amount)
-
-            if (!amountIsValid) {
-                return amountIsNotValid()
-            }
-
-            const type = params.type.trim().toUpperCase()
-
-            const typesValid = checkIfIsValidType(type)
-
-            if (!typesValid) {
-                return typeIsNotValid()
-            }
-
-            const transaction = await this.createTransactionUseCase.execute(
-                ...[params],
-                type,
-            )
-
-            return created(transaction)
-        } catch (err) {
             console.error(err)
             return errorServer()
         }
