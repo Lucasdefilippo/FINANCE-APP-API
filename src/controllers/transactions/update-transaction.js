@@ -1,13 +1,11 @@
+import { ZodError } from 'zod'
+import { updateTransactionSchema } from '../../schemas/transactions.js'
 import {
     badRequest,
     checkIdIsValid,
     errorServer,
     invalidIdResponse,
     Ok,
-    typeIsNotValid,
-    amountIsNotValid,
-    checkIfIsValidCurrency,
-    checkIfIsValidType,
 } from '../helpers/index.js'
 
 export class UpdateTransactionController {
@@ -24,43 +22,13 @@ export class UpdateTransactionController {
             }
             const params = httpRequest.body
 
-            const allowedFields = ['name', 'date', 'amount', 'type']
-
-            for (const param of allowedFields) {
-                if (!param) {
-                    if (params[param].trim().length === 0) {
-                        return badRequest({
-                            Message: `Missing param: ${param}`,
-                        })
-                    }
-                }
-            }
-
-            const someFieldsIsNotAllowed = Object.keys(params).some(
-                (field) => !allowedFields.includes(field),
-            )
-
-            if (someFieldsIsNotAllowed) {
+            if (params.transactionId || params.ID) {
                 return badRequest({
-                    message: 'Some provide field is invalid.',
+                    message: 'It is not possible to change the transaction ID.',
                 })
             }
 
-            if (params.amount) {
-                const amountIsValid = checkIfIsValidCurrency(params.amount)
-
-                if (!amountIsValid) {
-                    return amountIsNotValid()
-                }
-            }
-
-            if (params.type) {
-                const typeIsValid = checkIfIsValidType(params.type)
-
-                if (!typeIsValid) {
-                    return typeIsNotValid()
-                }
-            }
+            await updateTransactionSchema.parseAsync(params)
 
             const result = await this.updateTransactionUseCase.execute(
                 httpRequest.params.transactionId,
@@ -69,6 +37,11 @@ export class UpdateTransactionController {
 
             return Ok(result)
         } catch (error) {
+            if (error instanceof ZodError) {
+                return badRequest({
+                    message: error.issues[0].message,
+                })
+            }
             console.error(error)
 
             return errorServer()

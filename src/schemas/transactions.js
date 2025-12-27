@@ -25,3 +25,7 @@ export const createTransactionsSchema = z.object({
             }),
         ),
 })
+
+export const updateTransactionSchema = createTransactionsSchema
+    .partial()
+    .strict()
