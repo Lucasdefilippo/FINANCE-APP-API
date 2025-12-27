@@ -19,3 +19,5 @@ export const createUserSchema = z.object({
         message: 'The password must be at least 6 characters',
     }),
 })
+
+export const updateUserSchema = createUserSchema.partial().strict()

@@ -1,10 +1,8 @@
+import { ZodError } from 'zod'
 import { EmailAlreadyInUse } from '../../errors/user.js'
+import { updateUserSchema } from '../../schemas/index.js'
 import {
-    sendInvalidEmailError,
-    sendInvalidPasswordError,
     invalidIdResponse,
-    verifyEmail,
-    verifyPassword,
     checkIdIsValid,
     badRequest,
     errorServer,
@@ -19,8 +17,6 @@ export class UpdateUserController {
         try {
             const params = httpRequest.body
 
-            // Verificar o ID
-
             const userId = httpRequest.params.userId
 
             const isValidId = checkIdIsValid(userId)
@@ -28,52 +24,7 @@ export class UpdateUserController {
             if (!isValidId) {
                 return invalidIdResponse()
             }
-
-            // Verificar campos.
-
-            const allowedFields = [
-                'first_name',
-                'last_name',
-                'email',
-                'password',
-            ]
-            for (const param of allowedFields) {
-                if (!param) {
-                    if (params[param].trim().length === 0) {
-                        return badRequest({
-                            Message: `Missing param: ${param}`,
-                        })
-                    }
-                }
-            }
-
-            const someFieldsIsNotAllowed = Object.keys(params).some(
-                (field) => !allowedFields.includes(field),
-            )
-
-            if (someFieldsIsNotAllowed) {
-                return badRequest({
-                    message: 'Some provide field is invalid.',
-                })
-            }
-
-            // Vericiar e-mail
-
-            if (params.password) {
-                const passwordIsNotValid = verifyPassword(params.password)
-
-                if (!passwordIsNotValid) {
-                    return sendInvalidPasswordError()
-                }
-            }
-
-            if (params.email) {
-                const emailIsValid = verifyEmail(params.email)
-
-                if (!emailIsValid) {
-                    return sendInvalidEmailError()
-                }
-            }
+            await updateUserSchema.parseAsync(params)
 
             const user = await this.updateUserUseCase.execute(userId, params)
 
@@ -81,6 +32,12 @@ export class UpdateUserController {
                 user,
             })
         } catch (error) {
+            if (error instanceof ZodError) {
+                return badRequest({
+                    message: error.issues[0].message,
+                })
+            }
+
             if (error instanceof EmailAlreadyInUse) {
                 return badRequest({
                     message: error.message,
