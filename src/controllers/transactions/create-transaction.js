@@ -23,7 +23,7 @@ export class CreateTransactionController {
                 })
             }
 
-            console.error(err)
+            console.error(error)
             return errorServer()
         }
     }
