@@ -1,5 +1,4 @@
 import { prisma } from '../../../../prisma/prisma.js'
-// import { postgresHelper } from '../../../db/postgres/helper.js'
 
 export class PostgresGetUserByEmailRepository {
     async execute(email) {
