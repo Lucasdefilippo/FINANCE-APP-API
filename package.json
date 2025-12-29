@@ -8,7 +8,8 @@
     "main": "index.js",
     "scripts": {
         "start:dev": "node --watch index.js",
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "jest",
+        "test:watch": "jest --watch",
         "prepare": "husky",
         "migration": "node src/db/postgres/migration/exec.js"
     },
@@ -19,10 +20,14 @@
         ]
     },
     "devDependencies": {
+        "@babel/core": "^7.28.5",
+        "@babel/preset-env": "^7.28.5",
         "@eslint/js": "^9.39.1",
+        "babel-jest": "^30.2.0",
         "eslint": "^9.39.1",
         "globals": "^16.5.0",
         "husky": "^9.1.7",
+        "jest": "^30.2.0",
         "lint-staged": "^16.2.7",
         "prisma": "^7.2.0"
     },
