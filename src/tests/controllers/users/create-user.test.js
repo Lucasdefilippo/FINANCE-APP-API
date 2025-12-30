@@ -6,6 +6,9 @@ describe('Create User Controller', () => {
             return user
         }
     }
+
+    // Test for create a user
+
     it('should create an user ', async () => {
         const createUserUseCase = new CreateUserUseCaseStub()
         const createUserController = new CreateUserController(createUserUseCase)
@@ -26,6 +29,8 @@ describe('Create User Controller', () => {
         expect(result.body).not.toBeUndefined()
     })
 
+    // Test for status code 400 if firs_name is undefined or null
+
     it('should error 400 if firs_name is undefined or null', async () => {
         const createUserUseCase = new CreateUserUseCaseStub()
         const createUserController = new CreateUserController(createUserUseCase)
@@ -43,6 +48,8 @@ describe('Create User Controller', () => {
         expect(result.statusCode).toBe(400)
     })
 
+    // Test for status code 400 if last_name is undefined or null
+
     it('should error 400 if last_name is undefined or null', async () => {
         const createUserUseCase = new CreateUserUseCaseStub()
         const createUserController = new CreateUserController(createUserUseCase)
@@ -51,6 +58,25 @@ describe('Create User Controller', () => {
             body: {
                 first_name: 'Lucas',
                 email: 'lucas@defilippo.com',
+                password: '123456789',
+            },
+        }
+
+        const result = await createUserController.execute(httpRequest)
+
+        expect(result.statusCode).toBe(400)
+    })
+
+    // Test for status code 400 if email is undefined or null
+
+    it('should error 400 if last_name is undefined or null', async () => {
+        const createUserUseCase = new CreateUserUseCaseStub()
+        const createUserController = new CreateUserController(createUserUseCase)
+
+        const httpRequest = {
+            body: {
+                first_name: 'Lucas',
+                last_name: 'Defilippo',
                 password: '123456789',
             },
         }
