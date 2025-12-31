@@ -2,6 +2,8 @@
 const config = {
     testEnvironment: 'node',
 
+    transformIgnorePatterns: ['/node_modules/(?!(@faker-js/faker)/)'],
+
     coverageDirectory: 'coverage',
     coverageProvider: 'v8',
 
