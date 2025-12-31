@@ -86,6 +86,26 @@ describe('Create User Controller', () => {
         expect(result.statusCode).toBe(400)
     })
 
+    // Test for status code 400 if email is not valid
+
+    it('should error 400 if e-mail is not valid', async () => {
+        const createUserUseCase = new CreateUserUseCaseStub()
+        const createUserController = new CreateUserController(createUserUseCase)
+
+        const httpRequest = {
+            body: {
+                first_name: 'Lucas',
+                last_name: 'Defilippo',
+                email: 'lucasdefilippo',
+                password: '123456789',
+            },
+        }
+
+        const result = await createUserController.execute(httpRequest)
+
+        expect(result.statusCode).toBe(400)
+    })
+
     // Test for status code 400 if password is undefined or null
 
     it('should error 400 if password is undefinded or null', async () => {
