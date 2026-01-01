@@ -9,11 +9,17 @@ describe('Create User Controller', () => {
         }
     }
 
+    const makeSut = () => {
+        const createUserUseCase = new CreateUserUseCaseStub()
+        const createUserController = new CreateUserController(createUserUseCase)
+
+        return { createUserController, createUserUseCase }
+    }
+
     // Test for create a user
 
     it('should create an user ', async () => {
-        const createUserUseCase = new CreateUserUseCaseStub()
-        const createUserController = new CreateUserController(createUserUseCase)
+        const { createUserController } = makeSut()
 
         const httpRequest = {
             body: {
@@ -33,8 +39,7 @@ describe('Create User Controller', () => {
     // Test for status code 400 if firs_name is undefined or null
 
     it('should error 400 if firs_name is undefined or null', async () => {
-        const createUserUseCase = new CreateUserUseCaseStub()
-        const createUserController = new CreateUserController(createUserUseCase)
+        const { createUserController } = makeSut()
 
         const httpRequest = {
             body: {
@@ -52,8 +57,7 @@ describe('Create User Controller', () => {
     // Test for status code 400 if last_name is undefined or null
 
     it('should error 400 if last_name is undefined or null', async () => {
-        const createUserUseCase = new CreateUserUseCaseStub()
-        const createUserController = new CreateUserController(createUserUseCase)
+        const { createUserController } = makeSut()
 
         const httpRequest = {
             body: {
@@ -71,8 +75,7 @@ describe('Create User Controller', () => {
     // Test for status code 400 if email is undefined or null
 
     it('should error 400 if e-mail is undefined or null', async () => {
-        const createUserUseCase = new CreateUserUseCaseStub()
-        const createUserController = new CreateUserController(createUserUseCase)
+        const { createUserController } = makeSut()
 
         const httpRequest = {
             body: {
@@ -90,8 +93,7 @@ describe('Create User Controller', () => {
     // Test for status code 400 if email is not valid
 
     it('should error 400 if e-mail is not valid', async () => {
-        const createUserUseCase = new CreateUserUseCaseStub()
-        const createUserController = new CreateUserController(createUserUseCase)
+        const { createUserController } = makeSut()
 
         const httpRequest = {
             body: {
@@ -110,8 +112,7 @@ describe('Create User Controller', () => {
     // Test for status code 400 if password is undefined or null
 
     it('should error 400 if password is undefinded or null', async () => {
-        const createUserUseCase = new CreateUserUseCaseStub()
-        const createUserController = new CreateUserController(createUserUseCase)
+        const { createUserController } = makeSut()
 
         const httpRequest = {
             body: {
@@ -129,8 +130,7 @@ describe('Create User Controller', () => {
     // Test for status code 400 if password is less than 6 characters
 
     it('should error 400 if password is less than 6 characters', async () => {
-        const createUserUseCase = new CreateUserUseCaseStub()
-        const createUserController = new CreateUserController(createUserUseCase)
+        const { createUserController } = makeSut()
 
         const httpRequest = {
             body: {
@@ -149,8 +149,7 @@ describe('Create User Controller', () => {
     //
 
     it('', async () => {
-        const createUserUseCase = new CreateUserUseCaseStub()
-        const createUserController = new CreateUserController(createUserUseCase)
+        const { createUserController, createUserUseCase } = makeSut()
 
         const httpRequest = {
             body: {
@@ -171,8 +170,7 @@ describe('Create User Controller', () => {
     //
 
     it('should return 500 if CreateUserUseCase throws', async () => {
-        const createUserUseCase = new CreateUserUseCaseStub()
-        const createUserController = new CreateUserController(createUserUseCase)
+        const { createUserController, createUserUseCase } = makeSut()
 
         const httpRequest = {
             body: {
@@ -195,8 +193,7 @@ describe('Create User Controller', () => {
     //
 
     it('sould return 400 if CreateUserUseCase throw EmailAlreadyInUse', async () => {
-        const createUserUseCase = new CreateUserUseCaseStub()
-        const createUserController = new CreateUserController(createUserUseCase)
+        const { createUserController, createUserUseCase } = makeSut()
 
         const httpRequest = {
             body: {
