@@ -3,7 +3,7 @@ import { DeleteUserController } from '../../../../src/controllers/user/delete-us
 
 describe('DeleteUserController', () => {
     class DeleteUserUseCaseStub {
-        execute() {
+        async execute() {
             return {
                 id: faker.string.uuid(),
                 first_name: faker.person.firstName(),

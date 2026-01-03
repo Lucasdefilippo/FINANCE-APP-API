@@ -47,4 +47,16 @@ describe('GetUserBalanceController', () => {
         //assert
         expect(result.statusCode).toBe(400)
     })
+
+    it('should return 500 if GetUserBalanceUseCase throws', async () => {
+        //arrange
+        const { getUserBalanceController, getUserBalanceUseCase } = makeSut()
+        jest.spyOn(getUserBalanceUseCase, 'execute').mockRejectedValueOnce(
+            new Error(),
+        )
+        //act
+        const result = await getUserBalanceController.execute(httpRequest)
+        //assert
+        expect(result.statusCode).toBe(500)
+    })
 })
