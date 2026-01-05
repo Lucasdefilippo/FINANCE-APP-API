@@ -19,7 +19,7 @@ describe('CreateTransactionController', () => {
         body: {
             user_id: faker.string.uuid(),
             name: faker.finance.currencyName(),
-            date: '2026-07-12T10:00:00Z',
+            date: faker.date.anytime().toISOString(),
             amount: Number(faker.finance.amount()),
             type: 'EARNING',
         },
