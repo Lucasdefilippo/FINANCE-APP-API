@@ -25,12 +25,23 @@ describe('CreateTransactionController', () => {
         },
     }
 
-    it('should return 201 if create an transaction sucessfully', async () => {
+    it('should return 201 if create a transaction sucessfully', async () => {
         //arrange
         const { sut } = makeSut()
         //act
         const result = await sut.execute(httpRequest)
         //assert
         expect(result.statusCode).toBe(201)
+    })
+
+    it('should return 400 if user_id is not valid', async () => {
+        const { sut } = makeSut()
+        //act
+        const result = await sut.execute({
+            ...httpRequest.body,
+            user_id: 'Invalid_id',
+        })
+        //assert
+        expect(result.statusCode).toBe(400)
     })
 })
