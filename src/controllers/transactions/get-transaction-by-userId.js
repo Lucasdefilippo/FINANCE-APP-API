@@ -23,7 +23,7 @@ export class GetTransactionsByUserIdController {
             const checkUserId = checkIdIsValid(userId)
 
             if (!checkUserId) {
-                return { statusCode: 400, body: 'Foi não chefia' }
+                return { statusCode: 400, body: 'Id provided is invalid' }
             }
 
             const result =
