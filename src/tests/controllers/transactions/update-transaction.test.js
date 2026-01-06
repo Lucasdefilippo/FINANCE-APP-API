@@ -55,4 +55,18 @@ describe('UpdateTransactionController', () => {
 
         expect(result.statusCode).toBe(400)
     })
+
+    it('should return 400 if user_id provided is not valid', async () => {
+        const { sut } = makeSut()
+
+        const result = await sut.execute({
+            params: { ...httpRequest.params },
+            body: {
+                ...httpRequest.body,
+                user_id: 'Invalid_UserId',
+            },
+        })
+
+        expect(result.statusCode).toBe(400)
+    })
 })
