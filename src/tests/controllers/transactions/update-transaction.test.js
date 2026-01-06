@@ -1,0 +1,36 @@
+import { faker } from '@faker-js/faker'
+import { UpdateTransactionController } from '../../../controllers/transactions/update-transaction'
+
+describe('UpdateTransactionController', () => {
+    class UpdateTransactionUseCaseStub {
+        async execute(httpRequest) {
+            return httpRequest
+        }
+    }
+
+    const makeSut = () => {
+        const updateTransactionUseCase = new UpdateTransactionUseCaseStub()
+        const sut = new UpdateTransactionController(updateTransactionUseCase)
+
+        return { sut, updateTransactionUseCase }
+    }
+
+    const httpRequest = {
+        params: { transactionId: faker.string.uuid() },
+        body: {
+            user_id: faker.string.uuid(),
+            name: faker.finance.currencyName(),
+            date: faker.date.anytime().toISOString(),
+            amount: Number(faker.finance.amount()),
+            type: 'INVESTMENT',
+        },
+    }
+
+    it('should return 200 if the transaction was updated', async () => {
+        const { sut } = makeSut()
+
+        const result = await sut.execute(httpRequest)
+
+        expect(result.statusCode).toBe(200)
+    })
+})
