@@ -1,0 +1,51 @@
+import { faker } from '@faker-js/faker'
+import { GetTransactionsByUserIdController } from '../../../controllers/transactions/get-transaction-by-userId.js'
+
+describe('GetTransactionById', () => {
+    class GetTransactionByIdUseCaseStub {
+        async execute(userId) {
+            return [
+                {
+                    id: faker.string.uuid(),
+                    user_id: userId,
+                    name: faker.finance.currencyName(),
+                    date: faker.date.anytime().toISOString(),
+                    amount: Number(faker.finance.amount()),
+                    type: 'EARNING',
+                },
+                {
+                    id: faker.string.uuid(),
+                    user_id: userId,
+                    name: faker.finance.currencyName(),
+                    date: faker.date.anytime().toISOString(),
+                    amount: Number(faker.finance.amount()),
+                    type: 'EXPENSE',
+                },
+            ]
+        }
+    }
+
+    const makeSut = () => {
+        const getTransactionsByUserIdUseCase =
+            new GetTransactionByIdUseCaseStub()
+        const sut = new GetTransactionsByUserIdController(
+            getTransactionsByUserIdUseCase,
+        )
+
+        return { getTransactionsByUserIdUseCase, sut }
+    }
+
+    const httpRequest = {
+        query: {
+            userId: faker.string.uuid(),
+        },
+    }
+
+    it('should returs 200 if getting all transactions', async () => {
+        const { sut } = makeSut()
+
+        const result = await sut.execute(httpRequest)
+
+        expect(result.statusCode).toBe(200)
+    })
+})
