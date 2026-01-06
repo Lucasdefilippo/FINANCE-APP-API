@@ -68,4 +68,16 @@ describe('GetTransactionById', () => {
 
         expect(result.statusCode).toBe(400)
     })
+
+    it('should returns 500 if GetTransactionsByUserIdUseCase throws generic error', async () => {
+        const { sut, getTransactionsByUserIdUseCase } = makeSut()
+        jest.spyOn(
+            getTransactionsByUserIdUseCase,
+            'execute',
+        ).mockRejectedValueOnce(new Error())
+
+        const result = await sut.execute(httpRequest)
+
+        expect(result.statusCode).toBe(500)
+    })
 })
