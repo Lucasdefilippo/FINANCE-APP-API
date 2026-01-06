@@ -49,6 +49,16 @@ describe('GetTransactionById', () => {
         expect(result.statusCode).toBe(200)
     })
 
+    it('should returns 400 if is not provided userId', async () => {
+        const { sut } = makeSut()
+
+        const result = await sut.execute({
+            query: { userId: undefined },
+        })
+
+        expect(result.statusCode).toBe(400)
+    })
+
     it('should returns 400 if provided UserId is invalid', async () => {
         const { sut } = makeSut()
 
