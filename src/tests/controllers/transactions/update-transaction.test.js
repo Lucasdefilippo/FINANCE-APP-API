@@ -44,4 +44,15 @@ describe('UpdateTransactionController', () => {
 
         expect(result.statusCode).toBe(400)
     })
+
+    it('should return 400 if attempting to change the transactionId', async () => {
+        const { sut } = makeSut()
+
+        const result = await sut.execute({
+            params: { ...httpRequest.params },
+            body: { ...httpRequest.body, transactionId: faker.string.uuid() },
+        })
+
+        expect(result.statusCode).toBe(400)
+    })
 })
