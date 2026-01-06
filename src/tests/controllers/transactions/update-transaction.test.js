@@ -69,4 +69,18 @@ describe('UpdateTransactionController', () => {
 
         expect(result.statusCode).toBe(400)
     })
+
+    it('should return 400 if name provided is not valid', async () => {
+        const { sut } = makeSut()
+
+        const result = await sut.execute({
+            params: { ...httpRequest.params },
+            body: {
+                ...httpRequest.body,
+                name: '',
+            },
+        })
+
+        expect(result.statusCode).toBe(400)
+    })
 })
