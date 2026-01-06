@@ -105,7 +105,21 @@ describe('UpdateTransactionController', () => {
             params: { ...httpRequest.params },
             body: {
                 ...httpRequest.body,
-                type: 'type',
+                type: 'Invalid_type',
+            },
+        })
+
+        expect(result.statusCode).toBe(400)
+    })
+
+    it('should return 400 if amount provided is not valid', async () => {
+        const { sut } = makeSut()
+
+        const result = await sut.execute({
+            params: { ...httpRequest.params },
+            body: {
+                ...httpRequest.body,
+                type: 'Invalid_amount',
             },
         })
 
