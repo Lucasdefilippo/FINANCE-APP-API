@@ -18,7 +18,6 @@ describe('UpdateTransactionController', () => {
     const httpRequest = {
         params: { transactionId: faker.string.uuid() },
         body: {
-            user_id: faker.string.uuid(),
             name: faker.finance.currencyName(),
             date: faker.date.anytime().toISOString(),
             amount: Number(faker.finance.amount()),
@@ -63,7 +62,7 @@ describe('UpdateTransactionController', () => {
             params: { ...httpRequest.params },
             body: {
                 ...httpRequest.body,
-                user_id: 'Invalid_UserId',
+                user_id: faker.string.uuid(),
             },
         })
 
