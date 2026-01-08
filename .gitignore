@@ -1,4 +1,12 @@
+# Node Modules
 node_modules/
+
+# Data Base
 .postgres_data
-.env
 /src/generated/prisma
+
+# Environment
+.env
+
+# Tests
+coverage
