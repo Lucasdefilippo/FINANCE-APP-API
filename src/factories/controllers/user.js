@@ -20,6 +20,10 @@ import {
     PostgresDeleteUserRepository,
     PostgresGetUserBalanceRepository,
 } from '../../repositories/postgres/index.js'
+import {
+    IdGeneratorAdapter,
+    PasswordHasherAdapter,
+} from '../../adapters/index.js'
 
 export const makeGetUserByIdController = () => {
     const getUserByIdRepoitory = new PostgresGetUserByIdRepository()
@@ -32,10 +36,16 @@ export const makeGetUserByIdController = () => {
 export const makeCreateUserController = () => {
     const createUserRepository = new PostgresCreateUserRepository()
     const getUserByEmailRepository = new PostgresGetUserByEmailRepository()
+    const passwordHasher = new PasswordHasherAdapter()
+    const idGenerator = new IdGeneratorAdapter()
+
     const createUserUseCase = new CreateUserUseCase(
         createUserRepository,
         getUserByEmailRepository,
+        passwordHasher,
+        idGenerator,
     )
+
     const createUserController = new CreateUserController(createUserUseCase)
 
     return createUserController
