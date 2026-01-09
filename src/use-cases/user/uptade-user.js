@@ -1,10 +1,14 @@
 import { EmailAlreadyInUse } from '../../errors/user.js'
-import bcrypt from 'bcrypt'
 
 export class UpdateUserUseCase {
-    constructor(updateUserRepository, getUserByEmailRepository) {
+    constructor(
+        updateUserRepository,
+        getUserByEmailRepository,
+        passwordHasher,
+    ) {
         this.updateUserRepository = updateUserRepository
         this.getUserByEmailRepository = getUserByEmailRepository
+        this.passwordHasher = passwordHasher
     }
     async execute(userId, updateUserParams) {
         // Verificar se email exite ou está em uso em caso de atualização do e-mail
@@ -27,9 +31,8 @@ export class UpdateUserUseCase {
         }
 
         if (updateUserParams.password) {
-            const hashedPassword = bcrypt.hashSync(
+            const hashedPassword = this.passwordHasher.execute(
                 updateUserParams.password,
-                10,
             )
 
             updateUser.password = hashedPassword
