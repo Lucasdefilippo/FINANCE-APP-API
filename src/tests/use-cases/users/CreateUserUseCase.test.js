@@ -74,4 +74,15 @@ describe('Create User Use Case', () => {
 
         expect(result).toEqual(user)
     })
+
+    it('should that ID is generated with successfully', async () => {
+        const { sut, idGeneratorAdapter } = makeSut()
+        const user_id = idGeneratorAdapter.execute()
+
+        const result = await sut.execute({
+            body: { ...httpRequest.body, ID: user_id },
+        })
+
+        expect(result.body.ID).toBe(user_id)
+    })
 })
