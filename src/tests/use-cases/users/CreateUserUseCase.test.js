@@ -49,6 +49,7 @@ describe('Create User Use Case', () => {
 
     const httpRequest = {
         body: {
+            ID: faker.string.uuid(),
             first_name: faker.person.firstName(),
             last_name: faker.person.lastName(),
             email: faker.internet.email(),
@@ -84,5 +85,18 @@ describe('Create User Use Case', () => {
         })
 
         expect(result.body.ID).toBe(user_id)
+    })
+
+    it('should the password has hashed successfully', async () => {
+        const { sut, passwordHasherAdapter } = makeSut()
+        const password_hashed = passwordHasherAdapter.execute(
+            httpRequest.body.password,
+        )
+
+        const result = await sut.execute({
+            body: { ...httpRequest.body, password: password_hashed },
+        })
+
+        expect(result.body.password).toBe(password_hashed)
     })
 })
