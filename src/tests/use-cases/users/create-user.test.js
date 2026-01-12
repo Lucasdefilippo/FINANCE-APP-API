@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { CreateUserUseCase } from '../../../../src/use-cases/user/create-user.js'
+import { CreateUserUseCase } from '../../../use-cases/user/create-user.js'
 import { EmailAlreadyInUse } from '../../../errors/user.js'
 
 describe('Create User Use Case', () => {
