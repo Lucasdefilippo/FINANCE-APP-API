@@ -19,7 +19,7 @@ describe('Delete User Use Case', () => {
 
         const sut = new DeleteUserUseCase(deleteUserRepository)
 
-        return { sut }
+        return { sut, deleteUserRepository }
     }
 
     const userID = faker.string.uuid()
@@ -30,5 +30,13 @@ describe('Delete User Use Case', () => {
         const result = await sut.execute(userID)
 
         expect(result.ID).toEqual(userID)
+    })
+
+    it('should call DeleteUserRepository with corrected params', async () => {
+        const { sut, deleteUserRepository } = makeSut()
+        const spyOn = jest.spyOn(deleteUserRepository, 'execute')
+
+        await sut.execute(userID)
+        expect(spyOn).toHaveBeenCalledWith(userID)
     })
 })
