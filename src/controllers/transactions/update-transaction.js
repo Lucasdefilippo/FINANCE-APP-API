@@ -1,5 +1,5 @@
 import { ZodError } from 'zod'
-import { updateTransactionSchema } from '../../schemas/transactions.js'
+import { updateTransactionSchema } from '../../schemas/index.js'
 import {
     badRequest,
     checkIdIsValid,
