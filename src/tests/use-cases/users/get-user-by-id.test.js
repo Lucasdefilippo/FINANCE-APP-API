@@ -29,4 +29,15 @@ describe('Get User By Id Use Case', () => {
 
         expect(result).toEqual(userId)
     })
+
+    it('should throws if GetUserByIdRepository throws', async () => {
+        const { sut, getUserByIdRepository } = makeSut()
+        jest.spyOn(getUserByIdRepository, 'execute').mockRejectedValue(
+            new Error(),
+        )
+
+        const result = sut.execute(userId)
+
+        await expect(result).rejects.toThrow()
+    })
 })
