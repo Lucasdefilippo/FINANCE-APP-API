@@ -40,4 +40,13 @@ describe('Get User By Id Use Case', () => {
 
         await expect(result).rejects.toThrow()
     })
+
+    it('should call GetUserByIdRepository with corrected params', async () => {
+        const { sut, getUserByIdRepository } = makeSut()
+        const spy = jest.spyOn(getUserByIdRepository, 'execute')
+
+        await sut.execute(userId)
+
+        expect(spy).toHaveBeenCalledWith(userId)
+    })
 })
