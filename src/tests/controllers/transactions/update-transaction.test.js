@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { UpdateTransactionController } from '../../../controllers/transactions/update-transaction'
-
+import { UpdateTransactionController } from '../../../controllers/index.js'
 describe('UpdateTransactionController', () => {
     class UpdateTransactionUseCaseStub {
         async execute(httpRequest) {

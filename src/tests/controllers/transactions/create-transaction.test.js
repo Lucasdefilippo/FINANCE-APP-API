@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { CreateTransactionController } from '../../../../src/controllers/transactions/create-transaction.js'
+import { CreateTransactionController } from '../../../../src/controllers/index.js'
 
 describe('CreateTransactionController', () => {
     class CreateTransactionUseCaseStub {

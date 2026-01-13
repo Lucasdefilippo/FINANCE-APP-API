@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { GetUserBalanceController } from '../../../../src/controllers/user/get-user-balance.js'
+import { GetUserBalanceController } from '../../../../src/controllers/index.js'
 import { UserNotFoundError } from '../../../errors/user.js'
 
 describe('GetUserBalanceController', () => {

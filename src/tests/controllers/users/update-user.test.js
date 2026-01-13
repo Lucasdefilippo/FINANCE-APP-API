@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { UpdateUserController } from '../../../../src/controllers/user/update-user.js'
+import { UpdateUserController } from '../../../../src/controllers/index.js'
 import { EmailAlreadyInUse } from '../../../errors/user.js'
 
 describe('UpdateUserController', () => {

@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { GetUserBalanceUseCase } from '../../../use-cases/user/get-user-balance.js'
+import { GetUserBalanceUseCase } from '../../../use-cases/index.js'
 import { UserNotFoundError } from '../../../errors/user.js'
 
 describe('Get User Balance Use Case', () => {

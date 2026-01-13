@@ -1,4 +1,4 @@
-import { CreateUserController } from '../../../controllers/user/create-user'
+import { CreateUserController } from '../../../controllers/index.js'
 import { faker } from '@faker-js/faker'
 import { EmailAlreadyInUse } from '../../../errors/user'
 

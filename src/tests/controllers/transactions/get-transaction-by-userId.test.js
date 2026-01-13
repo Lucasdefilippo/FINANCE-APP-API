@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { GetTransactionsByUserIdController } from '../../../controllers/transactions/get-transaction-by-userId.js'
+import { GetTransactionsByUserIdController } from '../../../controllers/index.js'
 import { UserNotFoundError } from '../../../errors/user'
 
 describe('GetTransactionById', () => {

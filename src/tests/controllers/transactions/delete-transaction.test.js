@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { DeleteTransactionController } from '../../../../src/controllers/transactions/delete-transaction.js'
+import { DeleteTransactionController } from '../../../../src/controllers/index.js'
 
 describe('DeleteTransactionController', () => {
     class DeleteTransactionUseCaseStub {
