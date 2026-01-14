@@ -70,4 +70,18 @@ describe('Update User Use Case', () => {
         expect(spy).toHaveBeenCalledWith(email)
         expect(result).toBe(user)
     })
+
+    it('should update user successfully (with password)', async () => {
+        const { sut, passwordHasher } = makeSut()
+        const spy = jest.spyOn(passwordHasher, 'execute')
+
+        const password = faker.internet.password()
+
+        const result = await sut.execute(faker.string.uuid(), {
+            password: password,
+        })
+
+        expect(spy).toHaveBeenCalledWith(password)
+        expect(result).toBe(user)
+    })
 })
