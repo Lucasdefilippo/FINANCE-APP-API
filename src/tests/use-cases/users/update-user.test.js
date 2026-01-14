@@ -18,7 +18,7 @@ describe('Update User Use Case', () => {
     }
 
     class PasswordHasherAdapterStub {
-        execute() {
+        async execute() {
             return 'hashed_password'
         }
     }
@@ -123,6 +123,17 @@ describe('Update User Use Case', () => {
 
         const promise = sut.execute(user.ID, {
             email: faker.internet.email(),
+        })
+
+        await expect(promise).rejects.toThrow()
+    })
+
+    it('should throw if passwordHasherAdapter throws', async () => {
+        const { sut, passwordHasher } = makeSut()
+        jest.spyOn(passwordHasher, 'execute').mockRejectedValue(new Error())
+
+        const promise = sut.execute(faker.string.uuid(), {
+            password: faker.internet.password(),
         })
 
         await expect(promise).rejects.toThrow()
