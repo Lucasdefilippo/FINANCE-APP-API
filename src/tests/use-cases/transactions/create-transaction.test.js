@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { CreateTransactionUseCase } from '../../../use-cases'
+import { UserNotFoundError } from '../../../errors/user'
 
 describe('Create Transaction Use Case', () => {
     const user = {
@@ -92,5 +93,16 @@ describe('Create Transaction Use Case', () => {
             ...createTransactionParams,
             id: 'random_id',
         })
+    })
+
+    it('should throw UserNotFoundError if user does not exist', async () => {
+        const { sut, getUserByIdRepository } = makeSut()
+        jest.spyOn(getUserByIdRepository, 'execute').mockResolvedValue(null)
+
+        const promise = sut.execute(createTransactionParams)
+
+        await expect(promise).rejects.toThrow(
+            new UserNotFoundError(createTransactionParams.user_id),
+        )
     })
 })
