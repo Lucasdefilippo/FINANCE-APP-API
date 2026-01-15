@@ -41,11 +41,11 @@ describe('Create Transaction Use Case', () => {
         const createTransactionRepository =
             new CreateTransactionRepositoryStub()
         const idGeneratorAdapter = new IdGeneratorAdapterStub()
-        const getUserByEmailRepository = new GetUserByIdRepositoryStub()
+        const getUserByIdRepository = new GetUserByIdRepositoryStub()
 
         const sut = new CreateTransactionUseCase(
             createTransactionRepository,
-            getUserByEmailRepository,
+            getUserByIdRepository,
             idGeneratorAdapter,
         )
 
@@ -53,7 +53,7 @@ describe('Create Transaction Use Case', () => {
             sut,
             createTransactionRepository,
             idGeneratorAdapter,
-            getUserByEmailRepository,
+            getUserByIdRepository,
         }
     }
     it('should create transaction successfully', async () => {
@@ -62,5 +62,14 @@ describe('Create Transaction Use Case', () => {
         const result = await sut.execute(createTransactionParams)
 
         expect(result).toEqual({ ...createTransactionParams, id: 'random_id' })
+    })
+
+    it('should call GetUserByIdRepository with correct params', async () => {
+        const { sut, getUserByIdRepository } = makeSut()
+        const spy = jest.spyOn(getUserByIdRepository, 'execute')
+
+        await sut.execute(createTransactionParams)
+
+        expect(spy).toHaveBeenCalledWith(createTransactionParams.user_id)
     })
 })
