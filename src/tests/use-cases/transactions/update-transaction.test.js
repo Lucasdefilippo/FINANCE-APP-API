@@ -43,4 +43,16 @@ describe('Update Transaction Use Case', () => {
 
         expect(spy).toHaveBeenCalledWith(transaction.id, { name: 'new_name' })
     })
+
+    it('should throw if UpdateTransactionRepository throws', async () => {
+        const { sut, updateTransactionRepository } = makeSut()
+        jest.spyOn(
+            updateTransactionRepository,
+            'execute',
+        ).mockRejectedValueOnce(new Error())
+
+        const promise = sut.execute(transaction.id, { name: 'new_name' })
+
+        await expect(promise).rejects.toThrow()
+    })
 })
