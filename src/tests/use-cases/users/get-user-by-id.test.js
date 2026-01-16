@@ -1,17 +1,10 @@
-import { faker } from '@faker-js/faker'
 import { GetUserByIdUseCase } from '../../../use-cases/index.js'
+import { user } from '../../fixtures/user.js'
 
 describe('Get User By Id Use Case', () => {
-    const userId = {
-        id: faker.string.uuid(),
-        first_name: faker.person.firstName(),
-        last_name: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password({ length: 7 }),
-    }
     class GetUserByIdRepoitoryStub {
         async execute() {
-            return userId
+            return user
         }
     }
 
@@ -25,9 +18,9 @@ describe('Get User By Id Use Case', () => {
     it('should returns user successfully', async () => {
         const { sut } = makeSut()
 
-        const result = await sut.execute(userId)
+        const result = await sut.execute(user)
 
-        expect(result).toEqual(userId)
+        expect(result).toEqual(user)
     })
 
     it('should throws if GetUserByIdRepository throws', async () => {
@@ -36,7 +29,7 @@ describe('Get User By Id Use Case', () => {
             new Error(),
         )
 
-        const result = sut.execute(userId)
+        const result = sut.execute(user)
 
         await expect(result).rejects.toThrow()
     })
@@ -45,8 +38,8 @@ describe('Get User By Id Use Case', () => {
         const { sut, getUserByIdRepository } = makeSut()
         const spy = jest.spyOn(getUserByIdRepository, 'execute')
 
-        await sut.execute(userId)
+        await sut.execute(user)
 
-        expect(spy).toHaveBeenCalledWith(userId)
+        expect(spy).toHaveBeenCalledWith(user)
     })
 })

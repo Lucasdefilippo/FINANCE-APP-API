@@ -1,6 +1,6 @@
-import { faker } from '@faker-js/faker'
 import { CreateUserUseCase } from '../../../use-cases/index.js'
 import { EmailAlreadyInUse } from '../../../errors/user.js'
+import { user } from '../../fixtures/user.js'
 
 describe('Create User Use Case', () => {
     class CreateUserRepositoryStub {
@@ -48,33 +48,21 @@ describe('Create User Use Case', () => {
         }
     }
 
-    const httpRequest = {
-        body: {
-            ID: faker.string.uuid(),
-            first_name: faker.person.firstName(),
-            last_name: faker.person.lastName(),
-            email: faker.internet.email(),
-            password: faker.internet.password({ length: 7 }),
-        },
-    }
-
     it('should successfuly created user', async () => {
         const { sut, idGeneratorAdapter, passwordHasherAdapter } = makeSut()
         const user_id = idGeneratorAdapter.execute()
 
-        const passwordHasher = passwordHasherAdapter.execute(
-            httpRequest.body.password,
-        )
+        const passwordHasher = passwordHasherAdapter.execute(user.password)
 
-        const user = {
-            ...httpRequest,
+        const userParams = {
+            ...user,
             ID: user_id,
             password: passwordHasher,
         }
 
-        const result = await sut.execute(user)
+        const result = await sut.execute(userParams)
 
-        expect(result).toEqual(user)
+        expect(result).toEqual(userParams)
     })
 
     it('should that ID is generated with successfully', async () => {
@@ -82,32 +70,30 @@ describe('Create User Use Case', () => {
         const user_id = idGeneratorAdapter.execute()
 
         const result = await sut.execute({
-            body: { ...httpRequest.body, ID: user_id },
+            body: { ...user, ID: user_id },
         })
 
-        expect(result.body.ID).toBe(user_id)
+        expect(result.ID).toBe(user_id)
     })
 
     it('should the password has hashed successfully', async () => {
         const { sut, passwordHasherAdapter } = makeSut()
-        const password_hashed = passwordHasherAdapter.execute(
-            httpRequest.body.password,
-        )
+        const password_hashed = passwordHasherAdapter.execute(user.password)
 
         const result = await sut.execute({
-            body: { ...httpRequest.body, password: password_hashed },
+            body: { ...user, password: password_hashed },
         })
 
-        expect(result.body.password).toBe(password_hashed)
+        expect(result.password).toBe(password_hashed)
     })
 
     it('should throw an EmailAlreadyInUse if GetUserByEmailRepository return an user', async () => {
         const { sut, getUserByEmailRepository } = makeSut()
         jest.spyOn(getUserByEmailRepository, 'execute').mockReturnValueOnce(
-            httpRequest,
+            user,
         )
 
-        const promise = sut.execute(httpRequest)
+        const promise = sut.execute(user)
 
         await expect(promise).rejects.toThrow(new EmailAlreadyInUse())
     })
