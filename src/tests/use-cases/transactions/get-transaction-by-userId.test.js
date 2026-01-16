@@ -3,7 +3,13 @@ import { GetTransactionsByUserIdUseCase } from '../../../use-cases/transaction/g
 import { UserNotFoundError } from '../../../errors/user'
 
 describe('Get Transaction By User Id', () => {
-    const userId = faker.string.uuid()
+    const user = {
+        ID: faker.string.uuid(),
+        first_name: faker.person.firstName(),
+        last_name: faker.person.lastName(),
+        email: faker.internet.email(),
+        password: faker.internet.password({ length: 7 }),
+    }
 
     class GetTransactionByUserIdRepositoryStub {
         async execute() {
@@ -13,7 +19,7 @@ describe('Get Transaction By User Id', () => {
 
     class GetUserByIdRepositoryStub {
         async execute() {
-            return userId
+            return user
         }
     }
 
@@ -33,18 +39,29 @@ describe('Get Transaction By User Id', () => {
     it('should get transactions by userId with successfully', async () => {
         const { sut } = makeSut()
 
-        const result = await sut.execute(userId)
+        const result = await sut.execute(user.ID)
 
         expect(result).toEqual([])
     })
 
     it('should throw UserNotFoundError if user does not exist', async () => {
         const { sut, getUserByIdRepository } = makeSut()
-        jest.spyOn(getUserByIdRepository, 'execute').mockRejectedValueOnce(
-            new UserNotFoundError(),
-        )
+        jest.spyOn(getUserByIdRepository, 'execute').mockResolvedValueOnce(null)
+        const id = faker.string.uuid()
 
-        const promise = sut.execute(userId)
+        const promise = sut.execute(id)
+
+        await expect(promise).rejects.toThrow(new UserNotFoundError(id))
+    })
+
+    it('should throws if GetTransactionByUserIdRepository throws', async () => {
+        const { sut, getTransactionsbyUserIdRepository } = makeSut()
+        jest.spyOn(
+            getTransactionsbyUserIdRepository,
+            'execute',
+        ).mockRejectedValueOnce(new Error())
+
+        const promise = sut.execute(user.ID)
 
         await expect(promise).rejects.toThrow()
     })
