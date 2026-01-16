@@ -4,25 +4,8 @@ import { UserNotFoundError } from '../../../errors/user'
 
 describe('GetTransactionById', () => {
     class GetTransactionByIdUseCaseStub {
-        async execute(userId) {
-            return [
-                {
-                    id: faker.string.uuid(),
-                    user_id: userId,
-                    name: faker.finance.currencyName(),
-                    date: faker.date.anytime().toISOString(),
-                    amount: Number(faker.finance.amount()),
-                    type: 'EARNING',
-                },
-                {
-                    id: faker.string.uuid(),
-                    user_id: userId,
-                    name: faker.finance.currencyName(),
-                    date: faker.date.anytime().toISOString(),
-                    amount: Number(faker.finance.amount()),
-                    type: 'EXPENSE',
-                },
-            ]
+        async execute() {
+            return []
         }
     }
 
