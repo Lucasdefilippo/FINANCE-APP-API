@@ -1,6 +1,7 @@
 import { CreateUserController } from '../../../controllers/index.js'
 import { faker } from '@faker-js/faker'
 import { EmailAlreadyInUse } from '../../../errors/user'
+import { user } from '../../index.js'
 
 describe('Create User Controller', () => {
     class CreateUserUseCaseStub {
@@ -18,10 +19,7 @@ describe('Create User Controller', () => {
 
     const httpRequest = {
         body: {
-            first_name: faker.person.firstName(),
-            last_name: faker.person.lastName(),
-            email: faker.internet.email(),
-            password: faker.internet.password({ length: 7 }),
+            ...user,
         },
     }
 
