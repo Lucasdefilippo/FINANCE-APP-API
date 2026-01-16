@@ -1,15 +1,7 @@
-import { faker } from '@faker-js/faker'
 import { UpdateTransactionUseCase } from '../../../use-cases/index.js'
+import { transaction } from '../../index.js'
 
 describe('Update Transaction Use Case', () => {
-    const transaction = {
-        id: faker.string.uuid(),
-        user_id: faker.string.uuid(),
-        name: faker.finance.currencyName(),
-        date: faker.date.anytime().toISOString(),
-        amount: Number(faker.finance.amount()),
-        type: 'EARNING',
-    }
     class UpdateTransactionRepositoryStub {
         async execute(transactionId) {
             return {
