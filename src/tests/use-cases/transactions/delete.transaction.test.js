@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { DeleteTransactionUseCase } from '../../../use-cases/transaction/delete-transaction'
+import { DeleteTransactionUseCase } from '../../../use-cases/index.js'
 
 describe('Delete Transaction Use Case', () => {
     const transaction = {

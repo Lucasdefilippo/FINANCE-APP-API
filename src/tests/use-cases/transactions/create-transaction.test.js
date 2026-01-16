@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { CreateTransactionUseCase } from '../../../use-cases'
+import { CreateTransactionUseCase } from '../../../use-cases/index.js'
 import { UserNotFoundError } from '../../../errors/user'
 
 describe('Create Transaction Use Case', () => {
