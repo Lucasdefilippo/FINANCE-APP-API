@@ -8,8 +8,8 @@
     "main": "index.js",
     "scripts": {
         "start:dev": "node --watch index.js",
-        "test": "jest --silent",
-        "test:watch": "jest --watch --silent",
+        "test": "dotenv -e .env.test -- jest --silent",
+        "test:watch": "dotenv -e .env.test -- jest --watch --silent",
         "test:coverage": "jest --silent --coverage",
         "prepare": "husky",
         "migration": "node src/db/postgres/migration/exec.js"
@@ -39,6 +39,7 @@
         "@types/jest": "^30.0.0",
         "bcrypt": "^6.0.0",
         "dotenv": "^17.2.3",
+        "dotenv-cli": "^11.0.0",
         "express": "^5.2.1",
         "pg": "^8.16.3",
         "uuid": "^13.0.0",
