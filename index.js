@@ -92,7 +92,7 @@ app.delete('/api/transaction/:transactionId', async (request, response) => {
     response.status(statusCode).send(body)
 })
 
-const PORT = process.env.PORT || 3000
+const PORT = 3000
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
