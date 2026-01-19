@@ -56,7 +56,7 @@ describe('Create User Use Case', () => {
 
         const userParams = {
             ...user,
-            ID: user_id,
+            id: user_id,
             password: passwordHasher,
         }
 
@@ -70,10 +70,10 @@ describe('Create User Use Case', () => {
         const user_id = idGeneratorAdapter.execute()
 
         const result = await sut.execute({
-            body: { ...user, ID: user_id },
+            body: { ...user, id: user_id },
         })
 
-        expect(result.ID).toBe(user_id)
+        expect(result.id).toBe(user_id)
     })
 
     it('should the password has hashed successfully', async () => {
