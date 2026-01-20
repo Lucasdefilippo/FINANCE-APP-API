@@ -4,19 +4,33 @@ import { PostgresUpdateUser } from '../../../repositories/postgres/user/update-u
 import { user as fakeUser } from '../../fixtures/user'
 
 describe('PostgresUpdateUserRepository', () => {
+    const updateUserParams = {
+        id: faker.string.uuid(),
+        first_name: faker.person.firstName(),
+        last_name: faker.person.lastName(),
+        email: faker.internet.email(),
+        password: faker.internet.password({ length: 8 }),
+    }
+
     it('should update user on db', async () => {
         const user = await prisma.user.create({ data: fakeUser })
         const sut = new PostgresUpdateUser()
-        const updateUserParams = {
-            id: faker.string.uuid(),
-            first_name: faker.person.firstName(),
-            last_name: faker.person.lastName(),
-            email: faker.internet.email(),
-            password: faker.internet.password({ length: 8 }),
-        }
 
         const result = await sut.execute(user.id, updateUserParams)
 
         expect(result).toStrictEqual(updateUserParams)
+    })
+
+    it('should call Prisma with correct params', async () => {
+        const user = await prisma.user.create({ data: fakeUser })
+        const sut = new PostgresUpdateUser()
+        const prismaSpy = jest.spyOn(prisma.user, 'update')
+
+        await sut.execute(user.id, updateUserParams)
+
+        expect(prismaSpy).toHaveBeenCalledWith({
+            where: { id: user.id },
+            data: updateUserParams,
+        })
     })
 })
