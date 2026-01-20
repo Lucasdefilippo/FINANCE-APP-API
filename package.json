@@ -8,9 +8,9 @@
     "main": "index.js",
     "scripts": {
         "start:dev": "node --watch index.js",
-        "test": "dotenv -e .env.test -- jest --silent",
-        "test:watch": "dotenv -e .env.test -- jest --watch --silent",
-        "test:coverage": "jest --silent --coverage",
+        "test": "dotenv -e .env.test -- jest --silent --runInBand",
+        "test:watch": "npm run test -- --watch",
+        "test:coverage": "npm run test -- --coverage",
         "prepare": "husky",
         "migration": "node src/db/postgres/migration/exec.js"
     },
