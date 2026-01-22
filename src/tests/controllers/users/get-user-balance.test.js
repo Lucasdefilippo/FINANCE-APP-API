@@ -79,6 +79,6 @@ describe('GetUserBalanceController', () => {
 
         await getUserBalanceController.execute(httpRequest)
 
-        expect(executeSpy).toHaveBeenCalledWith(httpRequest.params)
+        expect(executeSpy).toHaveBeenCalledWith(httpRequest.params.userId)
     })
 })
