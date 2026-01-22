@@ -34,4 +34,20 @@ describe('Update Transaction Repository', () => {
         expect(String(result.amount)).toBe(String(params.amount))
         expect(result.type).toBe(params.type)
     })
+
+    it('should call Prisma with correct params', async () => {
+        await prisma.user.create({ data: user })
+        await prisma.transaction.create({
+            data: { ...transaction, user_id: user.id },
+        })
+        const sut = new PostgresUpdateTransactionRepository()
+        const prismaSpy = jest.spyOn(prisma.transaction, 'update')
+
+        await sut.execute(transaction.id, { ...transaction, user_id: user.id })
+
+        expect(prismaSpy).toHaveBeenCalledWith({
+            where: { id: transaction.id },
+            data: { ...transaction, user_id: user.id },
+        })
+    })
 })
