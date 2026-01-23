@@ -1,4 +1,6 @@
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client'
 import { prisma } from '../../../../prisma/prisma.js'
+import { UserNotFoundError } from '../../../errors/user.js'
 
 export class PostgresDeleteUserRepository {
     async execute(userId) {
@@ -8,9 +10,16 @@ export class PostgresDeleteUserRepository {
                     id: userId,
                 },
             })
-        } catch (err) {
-            console.error(err)
-            return null
+        } catch (error) {
+            if (error instanceof PrismaClientKnownRequestError) {
+                const code = error.code
+
+                if (code === 'P2025') {
+                    throw new UserNotFoundError(userId)
+                }
+            }
+
+            throw error
         }
     }
 }
