@@ -1,11 +1,13 @@
 import {
     CreateUserController,
     DeleteUserController,
+    GetUserByIdController,
     UpdateUserController,
 } from '../../controllers'
 import {
     makeCreateUserController,
     makeDeleteUserController,
+    makeGetUserByIdController,
     makeUpdateUserController,
 } from '../../factories/controllers/user'
 
@@ -20,5 +22,11 @@ describe('User Controlle Factories', () => {
 
     it('should return a valid DeleteUserController', () => {
         expect(makeDeleteUserController()).toBeInstanceOf(DeleteUserController)
+    })
+
+    it('should return a valid GetUserByIdController', () => {
+        expect(makeGetUserByIdController()).toBeInstanceOf(
+            GetUserByIdController,
+        )
     })
 })
