@@ -8,8 +8,16 @@ export class PostgresDeleteTransanctionRepository {
                     id: transactionId,
                 },
             })
-        } catch {
-            return null
+        } catch (error) {
+            if (error == PrismaClientKnownRequestError) {
+                const code = error.code
+
+                if (code === 'P2025') {
+                    throw new TransactionNotFoundError(transactionId)
+                }
+            }
+
+            throw error
         }
     }
 }

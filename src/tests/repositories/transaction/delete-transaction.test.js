@@ -25,6 +25,10 @@ describe('PostgresDeleteTransactionRepository', () => {
     })
 
     it('should call Prisma with correct params', async () => {
+        await prisma.user.create({ data: user })
+        await prisma.transaction.create({
+            data: { ...transaction, user_id: user.id },
+        })
         const sut = new PostgresDeleteTransanctionRepository()
         const prismaSpy = jest.spyOn(prisma.transaction, 'delete')
 
