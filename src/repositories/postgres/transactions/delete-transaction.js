@@ -1,4 +1,6 @@
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client'
 import { prisma } from '../../../../prisma/prisma.js'
+import { TransactionNotFoundError } from '../../../errors/transaction.js'
 
 export class PostgresDeleteTransanctionRepository {
     async execute(transactionId) {
@@ -9,7 +11,7 @@ export class PostgresDeleteTransanctionRepository {
                 },
             })
         } catch (error) {
-            if (error == PrismaClientKnownRequestError) {
+            if (error instanceof PrismaClientKnownRequestError) {
                 const code = error.code
 
                 if (code === 'P2025') {
