@@ -46,4 +46,19 @@ describe('Users Routes E2E Tests', () => {
         expect(response.body.email).toBe(updateUserParams.email)
         expect(response.body.password).not.toBe(createdUser.password)
     })
+
+    it('Delete /api/users/:id should return 200 when a user is deleted', async () => {
+        const { body: createdUser } = await request(app)
+            .post('/api/users')
+            .send({ ...user, id: undefined })
+
+        const response = await request(app).delete(
+            `/api/users/${createdUser.id}`,
+        )
+
+        console.log(response.body)
+
+        expect(response.status).toBe(200)
+        expect(response.body).toEqual(createdUser)
+    })
 })
