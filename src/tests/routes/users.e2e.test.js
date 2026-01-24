@@ -103,4 +103,12 @@ describe('Users Routes E2E Tests', () => {
             balance: '5000',
         })
     })
+
+    it('GET /api/users/:id should returns 404 when user is not found', async () => {
+        const response = await request(app).get(
+            `/api/users/${faker.string.uuid()}`,
+        )
+
+        expect(response.status).toBe(404)
+    })
 })
