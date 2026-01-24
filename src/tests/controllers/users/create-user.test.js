@@ -31,7 +31,7 @@ describe('Create User Controller', () => {
         const result = await createUserController.execute(httpRequest)
 
         expect(result.statusCode).toBe(201)
-        expect(result.body).toEqual(httpRequest)
+        expect(result.body).toEqual(httpRequest.body)
     })
 
     // Test for status code 400 if firs_name is undefined or null
