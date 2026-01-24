@@ -1,7 +1,9 @@
 import { faker } from '@faker-js/faker'
 import { prisma } from '../../../../prisma/prisma'
 import { PostgresUpdateUser } from '../../../repositories/postgres/user/update-user'
-import { user as fakeUser } from '../../fixtures/user'
+import { user as fakeUser, user } from '../../fixtures/user'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client'
+import { UserNotFoundError } from '../../../errors/user'
 
 describe('PostgresUpdateUserRepository', () => {
     const updateUserParams = {
@@ -41,5 +43,16 @@ describe('PostgresUpdateUserRepository', () => {
         const promise = sut.execute(updateUserParams)
 
         await expect(promise).rejects.toThrow()
+    })
+
+    it('should throws UserNotFoundError if Prisma throws error code P2025', async () => {
+        const sut = new PostgresUpdateUser()
+        jest.spyOn(prisma.user, 'update').mockRejectedValueOnce(
+            new PrismaClientKnownRequestError('', { code: 'P2025' }),
+        )
+
+        const promise = sut.execute(user.id)
+
+        await expect(promise).rejects.toThrow(new UserNotFoundError(user.id))
     })
 })
