@@ -29,9 +29,7 @@ export class GetUserByIdController {
                 })
             }
 
-            return Ok({
-                user,
-            })
+            return Ok(user)
         } catch (error) {
             console.error(error)
             return errorServer()
