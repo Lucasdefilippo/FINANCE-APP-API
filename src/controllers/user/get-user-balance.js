@@ -24,7 +24,7 @@ export class GetUserBalanceController {
 
             const result = await this.getUserBalanceUseCase.execute(user)
 
-            return Ok({ result })
+            return Ok(result)
         } catch (error) {
             if (error instanceof UserNotFoundError) {
                 return notFound({ message: 'User not found' })
