@@ -23,7 +23,7 @@ export class DeleteUserController {
 
             const user = await this.deleteUserUseCase.execute(userId)
 
-            return Ok({ Successfully_deleted: user })
+            return Ok(user)
         } catch (error) {
             if (error instanceof UserNotFoundError) {
                 return notFound({
