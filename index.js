@@ -1,10 +1,10 @@
 import 'dotenv/config.js'
 import express from 'express'
 
-import { usersRoute } from './src/Routers/user.js'
-import { transactionsRoute } from './src/Routers/transaction.js'
+import { usersRoute } from './src/routes/user.js'
+import { transactionsRoute } from './src/routes/transaction.js'
 
-const app = express()
+export const app = express()
 
 app.use(express.json())
 
