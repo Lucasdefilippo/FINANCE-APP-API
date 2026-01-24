@@ -28,9 +28,7 @@ export class UpdateUserController {
 
             const user = await this.updateUserUseCase.execute(userId, params)
 
-            return Ok({
-                user,
-            })
+            return Ok(user)
         } catch (error) {
             if (error instanceof ZodError) {
                 return badRequest({
