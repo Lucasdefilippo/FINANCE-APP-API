@@ -61,4 +61,46 @@ describe('Users Routes E2E Tests', () => {
         expect(response.status).toBe(200)
         expect(response.body).toEqual(createdUser)
     })
+
+    it('GET /api/users/:id/balance should return 200 and correct balance', async () => {
+        const { body: createdUser } = await request(app)
+            .post('/api/users')
+            .send({ ...user, id: undefined })
+
+        await request(app).post('/api/transaction').send({
+            user_id: createdUser.id,
+            name: faker.finance.currencyName(),
+            date: faker.date.anytime().toISOString(),
+            amount: 10000,
+            type: 'EARNING',
+        })
+
+        await request(app).post('/api/transaction').send({
+            user_id: createdUser.id,
+            name: faker.finance.currencyName(),
+            date: faker.date.anytime().toISOString(),
+            amount: 2000,
+            type: 'EXPENSE',
+        })
+
+        await request(app).post('/api/transaction').send({
+            user_id: createdUser.id,
+            name: faker.finance.currencyName(),
+            date: faker.date.anytime().toISOString(),
+            amount: 3000,
+            type: 'INVESTMENT',
+        })
+
+        const response = await request(app).get(
+            `/api/users/${createdUser.id}/balance`,
+        )
+
+        expect(response.status).toBe(200)
+        expect(response.body).toEqual({
+            earnings: '10000',
+            expenses: '2000',
+            investments: '3000',
+            balance: '5000',
+        })
+    })
 })
