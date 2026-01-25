@@ -24,7 +24,7 @@ export class DeleteTransactionController {
             const transaction =
                 await this.deleteTransactionUseCase.execute(transactionId)
 
-            return Ok({ Successfully_deleted: transaction })
+            return Ok(transaction)
         } catch (error) {
             if (error instanceof TransactionNotFoundError) {
                 return notFound({
