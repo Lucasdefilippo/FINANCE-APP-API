@@ -152,6 +152,41 @@
                     }
                 }
             }
+        },
+        "/api/users/{userId}/balance": {
+            "get": {
+                "tags": ["Balance"],
+                "summary": "Get user balance by id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Id of the user to get balance"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User Balance Found",
+                        "schema": {
+                            "$ref": "#/definitions/BalanceUser"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/UserNotFoundResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalErrorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -216,6 +251,27 @@
                 "message": {
                     "type": "string",
                     "example": "Internal Error"
+                }
+            }
+        },
+        "BalanceUser": {
+            "type": "object",
+            "properties": {
+                "earnings": {
+                    "type": "string",
+                    "example": "1500.75"
+                },
+                "expenses": {
+                    "type": "string",
+                    "example": "500.25"
+                },
+                "investments": {
+                    "type": "string",
+                    "example": "300.00"
+                },
+                "balance": {
+                    "type": "string",
+                    "example": "1500.75"
                 }
             }
         }
