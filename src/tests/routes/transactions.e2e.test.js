@@ -80,4 +80,12 @@ describe('Transactions Routes E2E test', () => {
 
         expect(response.status).toBe(200)
     })
+
+    it('PATCH /api/transaction/:transactionId should return 404 when updating transactionId not exist', async () => {
+        const response = await request(app)
+            .patch(`/api/transaction/${faker.string.uuid()}`)
+            .send({ name: faker.commerce.productName() })
+
+        expect(response.status).toBe(404)
+    })
 })
