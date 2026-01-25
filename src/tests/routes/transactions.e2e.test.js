@@ -20,7 +20,7 @@ describe('Transactions Routes E2E test', () => {
 
     it('GET /api/transaction should returns 200 when fetching transactions successfully', async () => {
         await prisma.user.create({ data: user })
-        const { body: createdtransaction } = await request(app)
+        const { body: createdTransaction } = await request(app)
             .post(`/api/transaction`)
             .send({
                 ...transaction,
@@ -29,16 +29,16 @@ describe('Transactions Routes E2E test', () => {
             })
 
         const response = await request(app).get(
-            `/api/transaction?userId=${createdtransaction.user_id}`,
+            `/api/transaction?userId=${createdTransaction.user_id}`,
         )
 
         expect(response.status).toBe(200)
-        expect(response.body[0].id).toBe(createdtransaction.id)
+        expect(response.body[0].id).toBe(createdTransaction.id)
     })
 
     it('PATCH /api/transaction/:transactionId should return 200 when updating a transaction with successfully', async () => {
         await prisma.user.create({ data: user })
-        const { body: createdtransaction } = await request(app)
+        const { body: createdTransaction } = await request(app)
             .post(`/api/transaction`)
             .send({
                 ...transaction,
@@ -54,7 +54,7 @@ describe('Transactions Routes E2E test', () => {
         }
 
         const response = await request(app)
-            .patch(`/api/transaction/${createdtransaction.id}`)
+            .patch(`/api/transaction/${createdTransaction.id}`)
             .send(updateTransactionParams)
 
         expect(response.status).toBe(200)
@@ -62,5 +62,22 @@ describe('Transactions Routes E2E test', () => {
         expect(response.body.amount).toBe(
             String(updateTransactionParams.amount),
         )
+    })
+
+    it('DELETE /api/transaction/:transactionId should return 200 when delete a transaction with successfully', async () => {
+        await prisma.user.create({ data: user })
+        const { body: createdTransaction } = await request(app)
+            .post(`/api/transaction`)
+            .send({
+                ...transaction,
+                user_id: user.id,
+                id: undefined,
+            })
+
+        const response = await request(app).delete(
+            `/api/transaction/${createdTransaction.id}`,
+        )
+
+        expect(response.status).toBe(200)
     })
 })
