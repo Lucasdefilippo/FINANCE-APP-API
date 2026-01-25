@@ -32,6 +32,35 @@
                     }
                 }
             }
+        },
+        "/api/users/{userId}": {
+            "get": {
+                "tags": ["User"],
+                "summary": "Get an user by id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Id of the user to get"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User Found",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "404": {
+                        "definitions": "User not found"
+                    },
+                    "500": {
+                        "description": "Internal Error"
+                    }
+                }
+            }
         }
     },
     "definitions": {
