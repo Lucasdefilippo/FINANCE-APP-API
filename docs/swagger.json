@@ -31,7 +31,10 @@
                         "description": "Invalid params"
                     },
                     "500": {
-                        "description": "Internal Error"
+                        "description": "Internal Error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalErrorResponse"
+                        }
                     }
                 }
             }
@@ -57,10 +60,16 @@
                         }
                     },
                     "404": {
-                        "definitions": "User not found"
+                        "definitions": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/UserNotFoundResponse"
+                        }
                     },
                     "500": {
-                        "description": "Internal Error"
+                        "description": "Internal Error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalErrorResponse"
+                        }
                     }
                 }
             },
@@ -84,10 +93,16 @@
                         }
                     },
                     "404": {
-                        "definitions": "User not found"
+                        "definitions": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/UserNotFoundResponse"
+                        }
                     },
                     "500": {
-                        "description": "Internal Error"
+                        "description": "Internal Error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalErrorResponse"
+                        }
                     }
                 }
             }
@@ -137,6 +152,24 @@
                 "password": {
                     "type": "string",
                     "example": "12345678"
+                }
+            }
+        },
+        "UserNotFoundResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "User Not Found"
+                }
+            }
+        },
+        "InternalErrorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Internal Error"
                 }
             }
         }
