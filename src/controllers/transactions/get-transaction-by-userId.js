@@ -29,7 +29,7 @@ export class GetTransactionsByUserIdController {
             const result =
                 await this.getTransactionsByUserIdUseCase.execute(userId)
 
-            return Ok({ result })
+            return Ok(result)
         } catch (error) {
             console.error(error)
             if (error instanceof UserNotFoundError) {
