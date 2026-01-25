@@ -93,7 +93,53 @@
                         }
                     },
                     "404": {
-                        "definitions": "User not found",
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/UserNotFoundResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalErrorResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update an user",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "Id of the user to update"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "type": "string",
+                        "description": "params of the user to update",
+                        "schema": {
+                            "$ref": "#/definitions/CreateUserParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated with successfully",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Params"
+                    },
+                    "404": {
+                        "description": "User not Found",
                         "schema": {
                             "$ref": "#/definitions/UserNotFoundResponse"
                         }
