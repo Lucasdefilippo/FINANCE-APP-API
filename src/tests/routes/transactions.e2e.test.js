@@ -64,18 +64,13 @@ describe('Transactions Routes E2E test', () => {
         )
     })
 
-    it('DELETE /api/transaction/:transactionId should return 200 when delete a transaction with successfully', async () => {
+    it('DELETE /api/transaction/:transactionId should return 200 when deleting a transaction with successfully', async () => {
         await prisma.user.create({ data: user })
-        const { body: createdTransaction } = await request(app)
-            .post(`/api/transaction`)
-            .send({
-                ...transaction,
-                user_id: user.id,
-                id: undefined,
-            })
-
+        await prisma.transaction.create({
+            data: { ...transaction, user_id: user.id },
+        })
         const response = await request(app).delete(
-            `/api/transaction/${createdTransaction.id}`,
+            `/api/transaction/${transaction.id}`,
         )
 
         expect(response.status).toBe(200)
@@ -85,6 +80,14 @@ describe('Transactions Routes E2E test', () => {
         const response = await request(app)
             .patch(`/api/transaction/${faker.string.uuid()}`)
             .send({ name: faker.commerce.productName() })
+
+        expect(response.status).toBe(404)
+    })
+
+    it('DELETE /api/transaction/:transactionId should return 404 when deleting transactionId not exist', async () => {
+        const response = await request(app).delete(
+            `/api/transaction/${faker.string.uuid()}`,
+        )
 
         expect(response.status).toBe(404)
     })
