@@ -56,8 +56,6 @@ describe('Users Routes E2E Tests', () => {
             `/api/users/${createdUser.id}`,
         )
 
-        console.log(response.body)
-
         expect(response.status).toBe(200)
         expect(response.body).toEqual(createdUser)
     })
