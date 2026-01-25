@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { UpdateTransactionController } from '../../../controllers/index.js'
+import { TransactionNotFoundError } from '../../../errors/transaction.js'
 describe('UpdateTransactionController', () => {
     class UpdateTransactionUseCaseStub {
         async execute(httpRequest) {
@@ -145,5 +146,16 @@ describe('UpdateTransactionController', () => {
             httpRequest.params.transactionId,
             httpRequest.body,
         )
+    })
+
+    it('should return 404 if Prisma throws error code P2025', async () => {
+        const { sut, updateTransactionUseCase } = makeSut()
+        jest.spyOn(updateTransactionUseCase, 'execute').mockRejectedValueOnce(
+            new TransactionNotFoundError(httpRequest.params),
+        )
+
+        const result = await sut.execute(httpRequest)
+
+        expect(result.statusCode).toBe(404)
     })
 })
