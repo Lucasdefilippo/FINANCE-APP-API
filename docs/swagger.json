@@ -236,6 +236,60 @@
                 }
             }
         },
+        "CreateTransactionParams": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "string",
+                    "example": "262b479a-8cfe-46c0-a7c1-034e0b82ecd5"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Salary"
+                },
+                "date": {
+                    "type": "string",
+                    "example": "2026-07-12T10:00:00Z"
+                },
+                "amount": {
+                    "type": "decimal",
+                    "example": 1700
+                },
+                "type": {
+                    "type": "string",
+                    "example": "EARNINGS | EXPENSES | INVESTMENTS"
+                }
+            }
+        },
+        "Transaction": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "262b479a-8cfe-46c0-a7c1-034e0b82ecd5"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "262b479a-8cfe-46c0-a7c1-034e0b82ecd5"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Salary"
+                },
+                "date": {
+                    "type": "string",
+                    "example": "2026-07-12T10:00:00Z"
+                },
+                "amount": {
+                    "type": "decimal",
+                    "example": 1700
+                },
+                "type": {
+                    "type": "string",
+                    "example": "EARNINGS | EXPENSES | INVESTMENTS"
+                }
+            }
+        },
         "UserNotFoundResponse": {
             "type": "object",
             "properties": {
