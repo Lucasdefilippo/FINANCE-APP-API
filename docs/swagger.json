@@ -220,6 +220,38 @@
                     }
                 }
             }
+        },
+        "/api/transaction?userId=262b479a-8cfe-46c0-a7c1-034e0b82ecd5": {
+            "get": {
+                "tags": ["Transaction"],
+                "summary": "Get all transactions",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Filter transactions by user id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of Transactions",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Transaction"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalErrorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
