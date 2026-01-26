@@ -187,6 +187,39 @@
                     }
                 }
             }
+        },
+        "/api/transaction": {
+            "post": {
+                "summary": "Create a new transaction",
+                "tags": ["Transaction"],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/CreateTransactionParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Transaction created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/Transaction"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid params"
+                    },
+                    "500": {
+                        "description": "Internal Error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalErrorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -257,7 +290,7 @@
                 },
                 "type": {
                     "type": "string",
-                    "example": "EARNINGS | EXPENSES | INVESTMENTS"
+                    "example": "EARNING | EXPENSE | INVESTMENT"
                 }
             }
         },
@@ -286,7 +319,7 @@
                 },
                 "type": {
                     "type": "string",
-                    "example": "EARNINGS | EXPENSES | INVESTMENTS"
+                    "example": "EARNING | EXPENSE | INVESTMENT"
                 }
             }
         },
