@@ -252,6 +252,48 @@
                     }
                 }
             }
+        },
+        "/api/transaction/{transactionId}": {
+            "patch": {
+                "summary": "Update a transaction",
+                "tags": ["Transaction"],
+                "parameters": [
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "Id of the transaction to update"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "type": "string",
+                        "description": "params of the transaction to update",
+                        "schema": {
+                            "$ref": "#/definitions/UpdateTransactionParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated with successfully",
+                        "schema": {
+                            "$ref": "#/definitions/Transaction"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Params"
+                    },
+                    "500": {
+                        "description": "Internal Error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalErrorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -337,6 +379,27 @@
                     "type": "string",
                     "example": "262b479a-8cfe-46c0-a7c1-034e0b82ecd5"
                 },
+                "name": {
+                    "type": "string",
+                    "example": "Salary"
+                },
+                "date": {
+                    "type": "string",
+                    "example": "2026-07-12T10:00:00Z"
+                },
+                "amount": {
+                    "type": "decimal",
+                    "example": 1700
+                },
+                "type": {
+                    "type": "string",
+                    "example": "EARNING | EXPENSE | INVESTMENT"
+                }
+            }
+        },
+        "UpdateTransactionParams": {
+            "type": "object",
+            "properties": {
                 "name": {
                     "type": "string",
                     "example": "Salary"
