@@ -73,39 +73,6 @@
                     }
                 }
             },
-            "delete": {
-                "tags": ["User"],
-                "summary": "Delete an user by id",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "userId",
-                        "required": true,
-                        "type": "string",
-                        "description": "Id of the user to delete"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "User delete successfully",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    },
-                    "404": {
-                        "description": "User not found",
-                        "schema": {
-                            "$ref": "#/definitions/UserNotFoundResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Error",
-                        "schema": {
-                            "$ref": "#/definitions/InternalErrorResponse"
-                        }
-                    }
-                }
-            },
             "patch": {
                 "summary": "Update an user",
                 "tags": ["User"],
@@ -151,26 +118,24 @@
                         }
                     }
                 }
-            }
-        },
-        "/api/users/{userId}/balance": {
-            "get": {
-                "tags": ["Balance"],
-                "summary": "Get user balance by id",
+            },
+            "delete": {
+                "tags": ["User"],
+                "summary": "Delete an user by id",
                 "parameters": [
                     {
                         "in": "path",
                         "name": "userId",
                         "required": true,
                         "type": "string",
-                        "description": "Id of the user to get balance"
+                        "description": "Id of the user to delete"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "User Balance Found",
+                        "description": "User delete successfully",
                         "schema": {
-                            "$ref": "#/definitions/BalanceUser"
+                            "$ref": "#/definitions/User"
                         }
                     },
                     "404": {
@@ -311,6 +276,41 @@
                         "description": "Transaction deleted successfully",
                         "schema": {
                             "$ref": "#/definitions/Transaction"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/{userId}/balance": {
+            "get": {
+                "tags": ["Balance"],
+                "summary": "Get user balance by id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Id of the user to get balance"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User Balance Found",
+                        "schema": {
+                            "$ref": "#/definitions/BalanceUser"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/UserNotFoundResponse"
                         }
                     },
                     "500": {
