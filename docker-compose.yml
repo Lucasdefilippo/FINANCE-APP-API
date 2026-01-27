@@ -2,7 +2,7 @@ version: '3'
 
 services:
     postgres:
-        image: 24d6c206bba8
+        image: postgres:15-alpine
         container_name: finance-app-postgres
         environment:
             POSTGRES_PASSWORD: password
@@ -14,7 +14,7 @@ services:
             - ./.postgres_data:/var/lib/postgresql/data
 
     postgres-test:
-        image: 24d6c206bba8
+        image: postgres:15-alpine
         container_name: finance-app-postgres-test
         environment:
             POSTGRES_PASSWORD: password

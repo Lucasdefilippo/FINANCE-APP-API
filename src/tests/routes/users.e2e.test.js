@@ -65,7 +65,7 @@ describe('Users Routes E2E Tests', () => {
             .post('/api/users')
             .send({ ...user, id: undefined })
 
-        await request(app).post('/api/transaction').send({
+        await request(app).post('/api/transactions').send({
             user_id: createdUser.id,
             name: faker.finance.currencyName(),
             date: faker.date.anytime().toISOString(),
@@ -73,7 +73,7 @@ describe('Users Routes E2E Tests', () => {
             type: 'EARNING',
         })
 
-        await request(app).post('/api/transaction').send({
+        await request(app).post('/api/transactions').send({
             user_id: createdUser.id,
             name: faker.finance.currencyName(),
             date: faker.date.anytime().toISOString(),
@@ -81,7 +81,7 @@ describe('Users Routes E2E Tests', () => {
             type: 'EXPENSE',
         })
 
-        await request(app).post('/api/transaction').send({
+        await request(app).post('/api/transactions').send({
             user_id: createdUser.id,
             name: faker.finance.currencyName(),
             date: faker.date.anytime().toISOString(),
