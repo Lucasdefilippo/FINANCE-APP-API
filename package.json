@@ -12,7 +12,9 @@
         "test:watch": "npm run test -- --watch",
         "test:coverage": "npm run test -- --coverage",
         "prepare": "husky",
-        "migration": "node src/db/postgres/migration/exec.js"
+        "migration": "node src/db/postgres/migration/exec.js",
+        "eslint:check": "eslint /src --ext .js",
+        "prettuer:check": "prettier --check 'src/**/*.js'"
     },
     "lint-staged": {
         "*.{js,mjs,cjs}": [
