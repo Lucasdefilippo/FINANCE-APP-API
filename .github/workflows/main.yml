@@ -24,6 +24,9 @@ jobs:
             - name: Install dependencies
               run: npm install
 
+            - name: Prisma generate
+              run: npx prisma generate
+
             - name: ESlint
               run: npm run eslint:check
 
