@@ -89,9 +89,9 @@ describe('Create User Use Case', () => {
 
     it('should throw an EmailAlreadyInUse if GetUserByEmailRepository return an user', async () => {
         const { sut, getUserByEmailRepository } = makeSut()
-        jest.spyOn(getUserByEmailRepository, 'execute').mockReturnValueOnce(
-            user,
-        )
+        import.meta.jest
+            .spyOn(getUserByEmailRepository, 'execute')
+            .mockReturnValueOnce(user)
 
         const promise = sut.execute(user)
 

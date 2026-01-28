@@ -127,9 +127,9 @@ describe('UpdateTransactionController', () => {
 
     it('should return 500 if UpdateTransactionUseCase throws generic error', async () => {
         const { sut, updateTransactionUseCase } = makeSut()
-        jest.spyOn(updateTransactionUseCase, 'execute').mockRejectedValueOnce(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(updateTransactionUseCase, 'execute')
+            .mockRejectedValueOnce(new Error())
 
         const result = await sut.execute(httpRequest)
 
@@ -138,7 +138,10 @@ describe('UpdateTransactionController', () => {
 
     it('should call UpdateTransactionUseCase with corrected params', async () => {
         const { sut, updateTransactionUseCase } = makeSut()
-        const executeSpy = jest.spyOn(updateTransactionUseCase, 'execute')
+        const executeSpy = import.meta.jest.spyOn(
+            updateTransactionUseCase,
+            'execute',
+        )
 
         await sut.execute(httpRequest)
 
@@ -150,9 +153,11 @@ describe('UpdateTransactionController', () => {
 
     it('should return 404 if Prisma throws error code P2025', async () => {
         const { sut, updateTransactionUseCase } = makeSut()
-        jest.spyOn(updateTransactionUseCase, 'execute').mockRejectedValueOnce(
-            new TransactionNotFoundError(httpRequest.params),
-        )
+        import.meta.jest
+            .spyOn(updateTransactionUseCase, 'execute')
+            .mockRejectedValueOnce(
+                new TransactionNotFoundError(httpRequest.params),
+            )
 
         const result = await sut.execute(httpRequest)
 

@@ -44,7 +44,9 @@ describe('Get User Balance Use Case', () => {
 
     it('should throw UserNotFoundError if GetUserByIdRepository returns null', async () => {
         const { sut, getUserByIdRespoitory } = makeSut()
-        jest.spyOn(getUserByIdRespoitory, 'execute').mockResolvedValueOnce(null)
+        import.meta.jest
+            .spyOn(getUserByIdRespoitory, 'execute')
+            .mockResolvedValueOnce(null)
         const userId = faker.string.uuid()
 
         const promise = sut.execute(userId)
@@ -54,7 +56,7 @@ describe('Get User Balance Use Case', () => {
 
     it('should call GetUserBalaceRepository with correted params', async () => {
         const { sut, getUserBalanceRepository } = makeSut()
-        const spy = jest.spyOn(getUserBalanceRepository, 'execute')
+        const spy = import.meta.jest.spyOn(getUserBalanceRepository, 'execute')
         const userId = faker.string.uuid()
 
         await sut.execute(userId)
@@ -64,7 +66,7 @@ describe('Get User Balance Use Case', () => {
 
     it('should call GetUserByIdRepository with correted params', async () => {
         const { sut, getUserByIdRespoitory } = makeSut()
-        const spy = jest.spyOn(getUserByIdRespoitory, 'execute')
+        const spy = import.meta.jest.spyOn(getUserByIdRespoitory, 'execute')
         const userId = faker.string.uuid()
 
         await sut.execute(userId)
@@ -74,9 +76,9 @@ describe('Get User Balance Use Case', () => {
 
     it('should throw if GetuserByIdRepository throws', async () => {
         const { sut, getUserByIdRespoitory } = makeSut()
-        jest.spyOn(getUserByIdRespoitory, 'execute').mockRejectedValue(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(getUserByIdRespoitory, 'execute')
+            .mockRejectedValue(new Error())
 
         const result = sut.execute(faker.string.uuid())
 
@@ -85,9 +87,9 @@ describe('Get User Balance Use Case', () => {
 
     it('should throw if GetUserBalanceRepository throws', async () => {
         const { sut, getUserBalanceRepository } = makeSut()
-        jest.spyOn(getUserBalanceRepository, 'execute').mockRejectedValue(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(getUserBalanceRepository, 'execute')
+            .mockRejectedValue(new Error())
 
         const result = sut.execute(faker.string.uuid())
 

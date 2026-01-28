@@ -55,10 +55,9 @@ describe('GetTransactionById', () => {
 
     it('should returns 404 if GetTransactionsByUserIdUseCase throws generic error', async () => {
         const { sut, getTransactionsByUserIdUseCase } = makeSut()
-        jest.spyOn(
-            getTransactionsByUserIdUseCase,
-            'execute',
-        ).mockRejectedValueOnce(new UserNotFoundError())
+        import.meta.jest
+            .spyOn(getTransactionsByUserIdUseCase, 'execute')
+            .mockRejectedValueOnce(new UserNotFoundError())
 
         const result = await sut.execute(httpRequest)
 
@@ -67,10 +66,9 @@ describe('GetTransactionById', () => {
 
     it('should returns 500 if GetTransactionsByUserIdUseCase throws generic error', async () => {
         const { sut, getTransactionsByUserIdUseCase } = makeSut()
-        jest.spyOn(
-            getTransactionsByUserIdUseCase,
-            'execute',
-        ).mockRejectedValueOnce(new Error())
+        import.meta.jest
+            .spyOn(getTransactionsByUserIdUseCase, 'execute')
+            .mockRejectedValueOnce(new Error())
 
         const result = await sut.execute(httpRequest)
 
@@ -79,7 +77,10 @@ describe('GetTransactionById', () => {
 
     it('should call GetTransactionByUserIdUseCase with corrected params', async () => {
         const { sut, getTransactionsByUserIdUseCase } = makeSut()
-        const executeSpy = jest.spyOn(getTransactionsByUserIdUseCase, 'execute')
+        const executeSpy = import.meta.jest.spyOn(
+            getTransactionsByUserIdUseCase,
+            'execute',
+        )
 
         await sut.execute(httpRequest)
 
