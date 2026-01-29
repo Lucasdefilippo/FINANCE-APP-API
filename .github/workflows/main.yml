@@ -21,6 +21,12 @@ jobs:
             - name: create .env.test file
               run: echo "DATABASE_URL=postgresql://postgres:password@localhost:5433/finance-app" >> .env.test
 
+            - name: Clean Prisma cache
+              run: |
+                  rm -rf node_modules
+                  rm -rf ~/.cache/prisma
+                  npm cache clean --force
+
             - name: Install dependencies
               run: npm install
 
