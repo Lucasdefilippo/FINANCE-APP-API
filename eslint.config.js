@@ -3,9 +3,6 @@ import js from '@eslint/js'
 
 export default defineConfig([
     {
-        ignores: ['src/generated/prisma/**'],
-    },
-    {
         files: ['**/*.js'],
         plugins: {
             js,
