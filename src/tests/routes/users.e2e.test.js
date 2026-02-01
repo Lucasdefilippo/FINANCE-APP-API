@@ -12,7 +12,7 @@ describe('Users Routes E2E Tests', () => {
 
         expect(response.status).toBe(201)
     })
-    it('POST /login shoudl return 200 when user is authorized', async () => {
+    it('POST /login should return 200 when user is authorized', async () => {
         const { body: createdUser } = await request(app)
             .post('/api/users')
             .send({ ...user, id: undefined })
