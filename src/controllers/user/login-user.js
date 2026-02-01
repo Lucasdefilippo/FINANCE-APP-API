@@ -1,5 +1,5 @@
 import { ZodError } from 'zod'
-import { loginSchema } from '../../schemas/user'
+import { loginSchema } from '../../schemas/user.js'
 import {
     badRequest,
     errorServer,
