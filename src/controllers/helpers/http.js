@@ -12,6 +12,13 @@ export const badRequest = (ErrorMessage) => ({
     },
 })
 
+export const unauthorized = (ErrorMessage) => ({
+    statusCode: 401,
+    body: {
+        ErrorMessage,
+    },
+})
+
 export const notFound = (body) => ({
     statusCode: 404,
     body,
