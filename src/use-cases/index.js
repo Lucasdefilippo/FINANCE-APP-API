@@ -3,6 +3,7 @@ export * from './user/create-user.js'
 export * from './user/uptade-user.js'
 export * from './user/delete-user.js'
 export * from './user/get-user-balance.js'
+export * from './user/login-user.js'
 
 export * from './transaction/create-transaction.js'
 export * from './transaction/get-transaction-by-userId.js'

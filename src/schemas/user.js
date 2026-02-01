@@ -21,3 +21,17 @@ export const createUserSchema = z.object({
 })
 
 export const updateUserSchema = createUserSchema.partial().strict()
+
+export const loginSchema = z.object({
+    email: z
+        .email({
+            message: 'Invalid E-mail. Please provide a valid one',
+        })
+        .trim()
+        .min(1, {
+            message: 'email is required',
+        }),
+    password: z.string().trim().min(6, {
+        message: 'The password must be at least 6 characters',
+    }),
+})
