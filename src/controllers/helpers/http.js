@@ -30,3 +30,10 @@ export const errorServer = () => ({
         Message: 'Internal server error',
     },
 })
+
+export const forbidden = () => ({
+    statusCode: 403,
+    body: {
+        Message: 'Fordbidden',
+    },
+})
