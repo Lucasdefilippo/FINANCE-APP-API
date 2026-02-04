@@ -29,4 +29,3 @@ export const createTransactionsSchema = z.object({
 export const updateTransactionSchema = createTransactionsSchema
     .omit({ user_id: true })
     .partial()
-    .strict()
