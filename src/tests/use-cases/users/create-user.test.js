@@ -27,16 +27,28 @@ describe('Create User Use Case', () => {
         }
     }
 
+    class TokensGeneratorAdapterStub {
+        execute() {
+            return {
+                accessToken: 'any_access_token',
+                refreshToken: 'any_refresh_token',
+            }
+        }
+    }
+
     const makeSut = () => {
         const createUserRepository = new CreateUserRepositoryStub()
         const getUserByEmailRepository = new GetUserByEmailRepositoryStub()
         const passwordHasherAdapter = new PasswordHasherAdapterStub()
         const idGeneratorAdapter = new IdGeneratorAdapterStub()
+        const tokensGeneratorAdapter = new TokensGeneratorAdapterStub()
+
         const sut = new CreateUserUseCase(
             createUserRepository,
             getUserByEmailRepository,
             passwordHasherAdapter,
             idGeneratorAdapter,
+            tokensGeneratorAdapter,
         )
 
         return {
@@ -45,6 +57,7 @@ describe('Create User Use Case', () => {
             getUserByEmailRepository,
             passwordHasherAdapter,
             idGeneratorAdapter,
+            tokensGeneratorAdapter,
         }
     }
 
@@ -58,6 +71,10 @@ describe('Create User Use Case', () => {
             ...user,
             id: user_id,
             password: passwordHasher,
+            tokens: {
+                accessToken: 'any_access_token',
+                refreshToken: 'any_refresh_token',
+            },
         }
 
         const result = await sut.execute(userParams)
