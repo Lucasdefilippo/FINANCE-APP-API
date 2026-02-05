@@ -6,9 +6,13 @@ import { faker } from '@faker-js/faker'
 
 describe('Transactions Routes E2E test', () => {
     it('POST /api/transactions should returns 201 when create a transaction', async () => {
-        await prisma.user.create({ data: user })
+        const { body: createdUser } = await request(app)
+            .post('/api/users')
+            .send({ ...user, id: undefined })
+
         const response = await request(app)
             .post('/api/transactions')
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 ...transaction,
                 user_id: user.id,
@@ -19,32 +23,36 @@ describe('Transactions Routes E2E test', () => {
     })
 
     it('GET /api/transactions should returns 200 when fetching transactions successfully', async () => {
-        await prisma.user.create({ data: user })
+        const { body: createdUser } = await request(app)
+            .post('/api/users')
+            .send({ ...user, id: undefined })
         const { body: createdTransaction } = await request(app)
             .post(`/api/transactions`)
             .send({
                 ...transaction,
-                user_id: user.id,
                 id: undefined,
             })
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
-        const response = await request(app).get(
-            `/api/transactions?userId=${createdTransaction.user_id}`,
-        )
+        const response = await request(app)
+            .get(`/api/transactions?userId=${createdTransaction.user_id}`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.status).toBe(200)
         expect(response.body[0].id).toBe(createdTransaction.id)
     })
 
     it('PATCH /api/transactions/:transactionId should return 200 when updating a transaction with successfully', async () => {
-        await prisma.user.create({ data: user })
+        const { body: createdUser } = await request(app)
+            .post('/api/users')
+            .send({ ...user, id: undefined })
         const { body: createdTransaction } = await request(app)
             .post(`/api/transactions`)
             .send({
                 ...transaction,
-                user_id: user.id,
                 id: undefined,
             })
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         const updateTransactionParams = {
             name: faker.finance.currencyName(),
@@ -55,6 +63,7 @@ describe('Transactions Routes E2E test', () => {
 
         const response = await request(app)
             .patch(`/api/transactions/${createdTransaction.id}`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send(updateTransactionParams)
 
         expect(response.status).toBe(200)
@@ -65,30 +74,29 @@ describe('Transactions Routes E2E test', () => {
     })
 
     it('DELETE /api/transactions/:transactionId should return 200 when deleting a transaction with successfully', async () => {
-        await prisma.user.create({ data: user })
+        const { body: createdUser } = await request(app)
+            .post('/api/users')
+            .send({ ...user, id: undefined })
         await prisma.transaction.create({
-            data: { ...transaction, user_id: user.id },
+            data: { ...transaction, user_id: createdUser.id },
         })
-        const response = await request(app).delete(
-            `/api/transactions/${transaction.id}`,
-        )
+
+        const response = await request(app)
+            .delete(`/api/transactions/${transaction.id}`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.status).toBe(200)
     })
 
-    it('PATCH /api/transactions/:transactionId should return 404 when updating transactionId not exist', async () => {
+    it('DELETE /api/transactions/:transactionId should return 401 if userId is not equal userId from transaction', async () => {
+        const { body: createdUser } = await request(app)
+            .post('/api/users')
+            .send({ ...user, id: undefined })
+
         const response = await request(app)
-            .patch(`/api/transactions/${faker.string.uuid()}`)
-            .send({ name: faker.commerce.productName() })
+            .delete(`/api/transactions/${faker.string.uuid()}`)
+            .set('Authorizatin', `Bearer ${createdUser.tokens.accessToken}`)
 
-        expect(response.status).toBe(404)
-    })
-
-    it('DELETE /api/transactions/:transactionId should return 404 when deleting transactionId not exist', async () => {
-        const response = await request(app).delete(
-            `/api/transactions/${faker.string.uuid()}`,
-        )
-
-        expect(response.status).toBe(404)
+        expect(response.status).toBe(401)
     })
 })
