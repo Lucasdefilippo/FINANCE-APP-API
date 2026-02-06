@@ -1,5 +1,5 @@
 import { ZodError } from 'zod'
-import { UnauthorizedError } from '../../errors/user'
+import { UnauthorizedError } from '../../errors/user.js'
 import { refreshTokenSchema } from '../../schemas/index.js'
 import { badRequest, errorServer, Ok, unauthorized } from '../helpers/index.js'
 
