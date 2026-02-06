@@ -116,6 +116,3 @@ Contribuições são bem-vindas — abra issues ou PRs com melhorias, correçõe
 
 MIT
 
----
-
-Se quiser, posso adicionar um exemplo de `.env.example`, exemplos de requisições com `curl`/`httpie` ou um badge de cobertura. ✅
