@@ -3,6 +3,9 @@ import { GetTransactionsByUserIdController } from '../../../controllers/index.js
 import { UserNotFoundError } from '../../../errors/user'
 
 describe('GetTransactionById', () => {
+    const from = '2026-01-01'
+    const to = '2026-02-01'
+
     class GetTransactionByIdUseCaseStub {
         async execute() {
             return []
@@ -22,6 +25,8 @@ describe('GetTransactionById', () => {
     const httpRequest = {
         query: {
             userId: faker.string.uuid(),
+            from: from,
+            to: to,
         },
     }
 

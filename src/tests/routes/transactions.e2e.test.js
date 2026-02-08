@@ -5,6 +5,8 @@ import { prisma } from '../../../prisma/prisma'
 import { faker } from '@faker-js/faker'
 
 describe('Transactions Routes E2E test', () => {
+    const from = '2020-01-01'
+    const to = '2020-01-02'
     it('POST /api/transactions should returns 201 when create a transaction', async () => {
         const { body: createdUser } = await request(app)
             .post('/api/users')
@@ -35,7 +37,7 @@ describe('Transactions Routes E2E test', () => {
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         const response = await request(app)
-            .get(`/api/transactions?userId=${createdTransaction.user_id}`)
+            .get(`/api/transactions?from=${from}&to=${to}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.status).toBe(200)
