@@ -29,3 +29,9 @@ export const createTransactionsSchema = z.object({
 export const updateTransactionSchema = createTransactionsSchema
     .omit({ user_id: true })
     .partial()
+
+export const getTransactionsByUserIdSchema = z.object({
+    user_id: z.uuid({ error: 'The provided ID is not valid' }),
+    from: z.iso.date({ error: 'The provided date from is not valid' }),
+    to: z.iso.date({ error: 'The provided date to is not valid' }),
+})

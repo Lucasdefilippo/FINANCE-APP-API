@@ -14,7 +14,12 @@ transactionsRoute.get('/', auth, async (request, response) => {
 
     const { statusCode, body } = await getTransactionsByUserId.execute({
         ...request,
-        query: { userId: request.userId },
+        query: {
+            ...request.query,
+            userId: request.userId,
+            from: request.query.from,
+            to: request.query.to,
+        },
     })
 
     response.status(statusCode).send(body)
