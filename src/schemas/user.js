@@ -41,3 +41,9 @@ export const refreshTokenSchema = z.object({
         message: 'The refresh token must be a string',
     }),
 })
+
+export const getUserBalanceSchema = z.object({
+    user_id: z.uuid({ error: 'The provided ID is not valid' }),
+    from: z.iso.date({ error: 'The provided date from is not valid' }),
+    to: z.iso.date({ error: 'The provided date to is not valid' }),
+})
