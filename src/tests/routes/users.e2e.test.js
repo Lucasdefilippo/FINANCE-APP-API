@@ -5,6 +5,9 @@ import { user } from '../index.js'
 import { faker } from '@faker-js/faker'
 
 describe('Users Routes E2E Tests', () => {
+    const from = '2026-01-01'
+    const to = '2026-02-01'
+
     it('POST /api/users should return 201 when a user is created', async () => {
         const response = await request(app)
             .post('/api/users')
@@ -87,7 +90,7 @@ describe('Users Routes E2E Tests', () => {
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 name: faker.finance.currencyName(),
-                date: faker.date.anytime().toISOString(),
+                date: new Date(from),
                 amount: 10000,
                 type: 'EARNING',
             })
@@ -97,7 +100,7 @@ describe('Users Routes E2E Tests', () => {
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 name: faker.finance.currencyName(),
-                date: faker.date.anytime().toISOString(),
+                date: new Date(from),
                 amount: 2000,
                 type: 'EXPENSE',
             })
@@ -107,14 +110,15 @@ describe('Users Routes E2E Tests', () => {
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 name: faker.finance.currencyName(),
-                date: faker.date.anytime().toISOString(),
+                date: new Date(to),
                 amount: 3000,
                 type: 'INVESTMENT',
             })
 
         const response = await request(app)
-            .get(`/api/users/balance`)
+            .get(`/api/users/balance?from=${from}&to=${to}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
+        console.log(response)
 
         expect(response.status).toBe(200)
         expect(response.body).toEqual({

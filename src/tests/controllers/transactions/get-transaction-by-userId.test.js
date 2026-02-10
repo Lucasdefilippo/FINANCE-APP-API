@@ -89,6 +89,10 @@ describe('GetTransactionById', () => {
 
         await sut.execute(httpRequest)
 
-        expect(executeSpy).toHaveBeenCalledWith(httpRequest.query.userId)
+        expect(executeSpy).toHaveBeenCalledWith(
+            httpRequest.query.userId,
+            httpRequest.query.from,
+            httpRequest.query.to,
+        )
     })
 })
