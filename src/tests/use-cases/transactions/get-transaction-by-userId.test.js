@@ -4,6 +4,9 @@ import { UserNotFoundError } from '../../../errors/user'
 import { user } from '../../index.js'
 
 describe('Get Transaction By User Id', () => {
+    const from = '2026-02-02'
+    const to = '2026-02-02'
+
     class GetTransactionByUserIdRepositoryStub {
         async execute() {
             return []
@@ -32,7 +35,7 @@ describe('Get Transaction By User Id', () => {
     it('should get transactions by userId with successfully', async () => {
         const { sut } = makeSut()
 
-        const result = await sut.execute(user.ID)
+        const result = await sut.execute(user.id, from, to)
 
         expect(result).toEqual([])
     })
@@ -55,7 +58,7 @@ describe('Get Transaction By User Id', () => {
             .spyOn(getTransactionsbyUserIdRepository, 'execute')
             .mockRejectedValueOnce(new Error())
 
-        const promise = sut.execute(user.ID)
+        const promise = sut.execute(user.id, from, to)
 
         await expect(promise).rejects.toThrow()
     })
@@ -69,8 +72,8 @@ describe('Get Transaction By User Id', () => {
 
         const id = faker.string.uuid()
 
-        await sut.execute(id)
+        await sut.execute(id, from, to)
 
-        expect(spy).toHaveBeenCalledWith(id)
+        expect(spy).toHaveBeenCalledWith(id, from, to)
     })
 })
