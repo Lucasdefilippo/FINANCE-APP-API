@@ -32,6 +32,7 @@ describe('Transactions Routes E2E test', () => {
             .post(`/api/transactions`)
             .send({
                 ...transaction,
+                date: new Date(from),
                 id: undefined,
             })
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
@@ -48,6 +49,7 @@ describe('Transactions Routes E2E test', () => {
         const { body: createdUser } = await request(app)
             .post('/api/users')
             .send({ ...user, id: undefined })
+
         const { body: createdTransaction } = await request(app)
             .post(`/api/transactions`)
             .send({
