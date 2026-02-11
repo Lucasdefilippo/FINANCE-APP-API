@@ -118,7 +118,6 @@ describe('Users Routes E2E Tests', () => {
         const response = await request(app)
             .get(`/api/users/balance?from=${from}&to=${to}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
-        console.log(response)
 
         expect(response.status).toBe(200)
         expect(response.body).toEqual({

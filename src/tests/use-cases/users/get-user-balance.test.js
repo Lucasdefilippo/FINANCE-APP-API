@@ -35,6 +35,9 @@ describe('Get User Balance Use Case', () => {
         return { getUserBalanceRepository, getUserByIdRespoitory, sut }
     }
 
+    const from = '2026-01-01'
+    const to = '2026-02-01'
+
     it('should returns successfully balance user', async () => {
         const { sut } = makeSut()
         const result = await sut.execute(faker.string.uuid())
@@ -59,9 +62,9 @@ describe('Get User Balance Use Case', () => {
         const spy = import.meta.jest.spyOn(getUserBalanceRepository, 'execute')
         const userId = faker.string.uuid()
 
-        await sut.execute(userId)
+        await sut.execute(userId, from, to)
 
-        expect(spy).toHaveBeenCalledWith(userId)
+        expect(spy).toHaveBeenCalledWith(userId, from, to)
     })
 
     it('should call GetUserByIdRepository with correted params', async () => {
