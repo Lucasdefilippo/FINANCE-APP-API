@@ -7,13 +7,13 @@ import { faker } from '@faker-js/faker'
 describe('Transactions Routes E2E test', () => {
     const from = '2020-01-01'
     const to = '2020-01-02'
-    it('POST /api/transactions should returns 201 when create a transaction', async () => {
+    it('POST /api/transactions/me should returns 201 when create a transaction', async () => {
         const { body: createdUser } = await request(app)
             .post('/api/users')
             .send({ ...user, id: undefined })
 
         const response = await request(app)
-            .post('/api/transactions')
+            .post('/api/transactions/me')
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 ...transaction,
@@ -24,12 +24,12 @@ describe('Transactions Routes E2E test', () => {
         expect(response.status).toBe(201)
     })
 
-    it('GET /api/transactions should returns 200 when fetching transactions successfully', async () => {
+    it('GET /api/transactions/me should returns 200 when fetching transactions successfully', async () => {
         const { body: createdUser } = await request(app)
             .post('/api/users')
             .send({ ...user, id: undefined })
         const { body: createdTransaction } = await request(app)
-            .post(`/api/transactions`)
+            .post(`/api/transactions/me`)
             .send({
                 ...transaction,
                 date: new Date(from),
@@ -38,20 +38,20 @@ describe('Transactions Routes E2E test', () => {
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         const response = await request(app)
-            .get(`/api/transactions?from=${from}&to=${to}`)
+            .get(`/api/transactions/me?from=${from}&to=${to}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.status).toBe(200)
         expect(response.body[0].id).toBe(createdTransaction.id)
     })
 
-    it('PATCH /api/transactions/:transactionId should return 200 when updating a transaction with successfully', async () => {
+    it('PATCH /api/transactions/me/:transactionId should return 200 when updating a transaction with successfully', async () => {
         const { body: createdUser } = await request(app)
             .post('/api/users')
             .send({ ...user, id: undefined })
 
         const { body: createdTransaction } = await request(app)
-            .post(`/api/transactions`)
+            .post(`/api/transactions/me`)
             .send({
                 ...transaction,
                 id: undefined,
@@ -66,7 +66,7 @@ describe('Transactions Routes E2E test', () => {
         }
 
         const response = await request(app)
-            .patch(`/api/transactions/${createdTransaction.id}`)
+            .patch(`/api/transactions/me/${createdTransaction.id}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send(updateTransactionParams)
 
@@ -77,7 +77,7 @@ describe('Transactions Routes E2E test', () => {
         )
     })
 
-    it('DELETE /api/transactions/:transactionId should return 200 when deleting a transaction with successfully', async () => {
+    it('DELETE /api/transactions/me/:transactionId should return 200 when deleting a transaction with successfully', async () => {
         const { body: createdUser } = await request(app)
             .post('/api/users')
             .send({ ...user, id: undefined })
@@ -86,19 +86,19 @@ describe('Transactions Routes E2E test', () => {
         })
 
         const response = await request(app)
-            .delete(`/api/transactions/${transaction.id}`)
+            .delete(`/api/transactions/me/${transaction.id}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.status).toBe(200)
     })
 
-    it('DELETE /api/transactions/:transactionId should return 401 if userId is not equal userId from transaction', async () => {
+    it('DELETE /api/transactions/me/:transactionId should return 401 if userId is not equal userId from transaction', async () => {
         const { body: createdUser } = await request(app)
             .post('/api/users')
             .send({ ...user, id: undefined })
 
         const response = await request(app)
-            .delete(`/api/transactions/${faker.string.uuid()}`)
+            .delete(`/api/transactions/me/${faker.string.uuid()}`)
             .set('Authorizatin', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.status).toBe(401)
