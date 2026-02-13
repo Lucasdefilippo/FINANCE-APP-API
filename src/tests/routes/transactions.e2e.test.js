@@ -28,6 +28,7 @@ describe('Transactions Routes E2E test', () => {
         const { body: createdUser } = await request(app)
             .post('/api/users')
             .send({ ...user, id: undefined })
+
         const { body: createdTransaction } = await request(app)
             .post(`/api/transactions/me`)
             .send({
