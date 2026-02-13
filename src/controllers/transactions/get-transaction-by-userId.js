@@ -10,11 +10,9 @@ export class GetTransactionsByUserIdController {
 
     async execute(httpRequest) {
         try {
-            const userId = httpRequest.query.userId
+            const userId = httpRequest.body.userId
             const from = httpRequest.query.from
             const to = httpRequest.query.to
-
-            console.log(httpRequest.query)
 
             await getTransactionsByUserIdSchema.parseAsync({
                 user_id: userId,
@@ -30,7 +28,6 @@ export class GetTransactionsByUserIdController {
 
             return Ok(result)
         } catch (error) {
-            console.error(error)
             if (error instanceof UserNotFoundError) {
                 return notFound({
                     message: 'User is Not Found',
@@ -41,6 +38,7 @@ export class GetTransactionsByUserIdController {
                     message: 'Parameters issue',
                 })
             }
+
             return errorServer()
         }
     }
